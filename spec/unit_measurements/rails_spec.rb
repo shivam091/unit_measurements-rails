@@ -5,5 +5,4 @@
 # spec/unit_measurements/rails_spec.rb
 
 RSpec.describe UnitMeasurements::Rails do
-
 end
