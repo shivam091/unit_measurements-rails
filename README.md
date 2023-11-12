@@ -18,7 +18,7 @@ It provides ActiveRecord adapter for persisting and retrieving measurements with
 
 ## Minimum Requirements
 
-* Ruby 3.2.2+ (https://www.ruby-lang.org/en/downloads/branches/)
+* Ruby 3.2+ (https://www.ruby-lang.org/en/downloads/branches/)
 * Rails 7.0.0+ (https://rubygems.org/gems/rails/versions)
 
 ## Installation

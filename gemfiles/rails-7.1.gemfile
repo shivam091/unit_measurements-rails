@@ -2,7 +2,8 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-# spec/unit_measurements/rails_spec.rb
+source "https://rubygems.org"
 
-RSpec.describe UnitMeasurements::Rails do
-end
+gemspec path: ".."
+
+gem "rails", "~> 7.1"

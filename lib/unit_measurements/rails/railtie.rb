@@ -4,8 +4,7 @@
 
 module UnitMeasurements
   module Rails
-    class BaseError < StandardError; end
+    class Railtie < ::Rails::Railtie
+    end
   end
 end
-
-require "unit_measurements/rails/base"

@@ -8,7 +8,7 @@ require "simplecov"
 SimpleCov.start
 
 $:.unshift File.expand_path("../../lib", __FILE__)
-require "unit_measurements/rails"
+require "unit_measurements-rails"
 
 RSpec.configure do |config|
   config.color = true
@@ -24,4 +24,17 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before(:suite) do
+    ActiveRecord::Base.subclasses.each do |model|
+      model.delete_all
+    end
+  end
 end
+
+# Load model classes.
+Dir.glob(File.expand_path("spec/support/models/*.rb")).each { |file| require file }
+
+# Establish connection to the database and dump database.
+ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
+require_relative "support/schema.rb"
