@@ -2,8 +2,4 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-source "https://rubygems.org"
-
-gemspec
-
-gem "rails"
+require "unit_measurements/rails/base"
