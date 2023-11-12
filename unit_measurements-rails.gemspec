@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.summary = "Rails adaptor for unit_measurements"
   spec.homepage = "https://github.com/shivam091/unit_measurements-rails"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2.2"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
@@ -34,10 +33,16 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "railties", ">= 7"
+  spec.add_runtime_dependency "activemodel", ">= 7"
+  spec.add_runtime_dependency "activerecord", ">= 7"
+
   spec.add_runtime_dependency "unit_measurements", "~> 5"
 
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "simplecov", "~> 0.21", ">= 0.21.2"
   spec.add_development_dependency "byebug", "~> 11"
+
+  spec.required_ruby_version = ">= 3"
 end

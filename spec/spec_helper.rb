@@ -8,7 +8,7 @@ require "simplecov"
 SimpleCov.start
 
 $:.unshift File.expand_path("../../lib", __FILE__)
-require "unit_measurements/rails"
+require "unit_measurements-rails"
 
 RSpec.configure do |config|
   config.color = true
