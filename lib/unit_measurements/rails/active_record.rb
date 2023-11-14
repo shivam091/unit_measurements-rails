@@ -12,38 +12,45 @@ module UnitMeasurements
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.0.0
     module ActiveRecord
-      # Defines a reader and writer methods for the measurement attribute in the
+      # Defines a reader and writer methods for the measurement attributes in the
       # +ActiveRecord+ model.
       #
-      # @example Defining measured attributes:
+      # @example Defining single measured attribute:
       #   class Thing < ActiveRecord::Base
       #     measured UnitMeasurements::Length, :height
       #   end
       #
+      # @example Defining multiple measured attributes:
+      #   class Package < ActiveRecord::Base
+      #     measured UnitMeasurements::Weight, :item_weight, :total_weight
+      #   end
+      #
       # @param [Class|String] unit_group
       #   The unit group class or its name as a string.
-      # @param [String|Symbol] measurement_attr
-      #   The name of the measurement attribute.
+      # @param [Array<String|Symbol>] measurement_attrs
+      #   An array of the names of measurement attributes.
       # @return [void]
       #
       # @raise [BaseError]
-      #   if unit_group is not a subclass of UnitMeasurements::Measurement.
+      #   If unit_group is not a subclass of UnitMeasurements::Measurement.
       #
       # @see BaseError
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
-      def measured(unit_group, measurement_attr)
+      def measured(unit_group, *measurement_attrs)
         unit_group = unit_group.constantize if unit_group.is_a?(String)
 
         validate_unit_group!(unit_group)
 
-        quantity_attr = "#{measurement_attr}_quantity"
-        unit_attr = "#{measurement_attr}_unit"
+        measurement_attrs.map(&:to_s).each do |measurement_attr|
+          quantity_attr = "#{measurement_attr}_quantity"
+          unit_attr = "#{measurement_attr}_unit"
 
-        define_measurement_reader(measurement_attr, quantity_attr, unit_attr, unit_group)
-        define_measurement_writer(measurement_attr, quantity_attr, unit_attr, unit_group)
-        redefine_quantity_writer(quantity_attr)
-        redefine_unit_writer(unit_attr, unit_group)
+          define_measurement_reader(measurement_attr, quantity_attr, unit_attr, unit_group)
+          define_measurement_writer(measurement_attr, quantity_attr, unit_attr, unit_group)
+          redefine_quantity_writer(quantity_attr)
+          redefine_unit_writer(unit_attr, unit_group)
+        end
       end
 
       private
@@ -67,7 +74,7 @@ module UnitMeasurements
 
       # Defines the method to read measurement attribute.
       #
-      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] measurement_attr The name of the measurement attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
@@ -90,7 +97,7 @@ module UnitMeasurements
 
       # Defines the method to write measurement attribute.
       #
-      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] measurement_attr The name of the measurement attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
