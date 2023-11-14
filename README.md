@@ -37,6 +37,50 @@ Or otherwise simply install it yourself as:
 
 `$ gem install unit_measurements-rails`
 
+## Usage
+
+### ActiveRecord
+
+Attribute names are expected to have the `_quantity` and `_unit` suffix, and be `DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
+
+```ruby
+class AddHeightToThings < ActiveRecord::Migration[7.0]
+  def change
+    add_column :things, :height_quantity, :decimal, precision: 10, scale: 2
+    add_column :things, :height_unit, :string, limit: 12
+  end
+end
+```
+
+A column can be declared as a measurement with its unit group class:
+
+```ruby
+class Thing < ActiveRecord::Base
+  measured UnitMeasurements::Length, :height
+end
+```
+
+This will allow you to access and assign a measurement object:
+
+```ruby
+thing = Thing.new
+thing.height = UnitMeasurements::Length.new(5, "ft")
+thing.height_quantity
+#=> 0.5e1
+thing.height_unit     
+#=> "ft"
+thing.height
+#=> 5.0 ft
+```
+
+Order of assignment does not matter, and each attribute can be assigned separately and with mass assignment:
+
+```ruby
+params = {height_quantity: "3", height_unit: "ft"}
+thing = Thing.new(params)
+thing.height
+#=> 3.0 ft
+```
 
 ## Contributing
 

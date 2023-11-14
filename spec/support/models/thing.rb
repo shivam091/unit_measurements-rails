@@ -2,6 +2,6 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-require "unit_measurements/rails/base"
-
-require "unit_measurements/rails/unit_groups/all"
+class Thing < ActiveRecord::Base
+  measured UnitMeasurements::Length, :height
+end
