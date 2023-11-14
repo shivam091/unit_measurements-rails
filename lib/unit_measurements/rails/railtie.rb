@@ -9,7 +9,7 @@ module UnitMeasurements
     #
     # This Railtie is designed to be automatically loaded by Rails when the
     # application starts. It can be used to configure and customize the behavior
-    # of UnitMeasurements in a Rails application.
+    # of +unit_measurements+ in a Rails application.
     #
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 0.1.0

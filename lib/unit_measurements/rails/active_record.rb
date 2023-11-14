@@ -12,7 +12,8 @@ module UnitMeasurements
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.0.0
     module ActiveRecord
-      # Defines a measurement attribute in the +ActiveRecord+ model.
+      # Defines a reader and writer methods for the measurement attribute in the
+      # +ActiveRecord+ model.
       #
       # @example Defining measured attributes:
       #   class Thing < ActiveRecord::Base
@@ -26,8 +27,7 @@ module UnitMeasurements
       # @return [void]
       #
       # @raise [BaseError]
-      #   if +unit_group+ is not a subclass of +UnitMeasurements::Measurement+
-      #   or instance of +Class+.
+      #   if unit_group is not a subclass of UnitMeasurements::Measurement.
       #
       # @see BaseError
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
@@ -48,12 +48,34 @@ module UnitMeasurements
 
       private
 
+      # Validates whether the +unit_group+ is a subclass of +UnitMeasurements::Measurement+.
+      #
+      # @param [Class] unit_group The unit group class to be validated.
+      #
+      # @raise [BaseError]
+      #   if unit_group is not a subclass of UnitMeasurements::Measurement.
+      #
+      # @return [void]
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.0.0
       def validate_unit_group!(unit_group)
         unless unit_group.is_a?(Class) && unit_group.ancestors.include?(Measurement)
           raise BaseError, "Expecting `#{unit_group}` to be a subclass of UnitMeasurements::Measurement"
         end
       end
 
+      # Defines the method to read measurement attribute.
+      #
+      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] quantity_attr The name of the quantity attribute.
+      # @param [String] unit_attr The name of the unit attribute.
+      # @param [Class] unit_group The unit group class for the measurement.
+      #
+      # @return [void]
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.0.0
       def define_measurement_reader(measurement_attr, quantity_attr, unit_attr, unit_group)
         define_method(measurement_attr) do
           quantity, unit = public_send(quantity_attr), public_send(unit_attr)
@@ -66,6 +88,17 @@ module UnitMeasurements
         end
       end
 
+      # Defines the method to write measurement attribute.
+      #
+      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] quantity_attr The name of the quantity attribute.
+      # @param [String] unit_attr The name of the unit attribute.
+      # @param [Class] unit_group The unit group class for the measurement.
+      #
+      # @return [void]
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.0.0
       def define_measurement_writer(measurement_attr, quantity_attr, unit_attr, unit_group)
         define_method("#{measurement_attr}=") do |measurement|
           if measurement.is_a?(unit_group)
@@ -78,6 +111,14 @@ module UnitMeasurements
         end
       end
 
+      # Redefines the writer method to set quantity attribute.
+      #
+      # @param quantity_attr [String] The name of the quantity attribute.
+      #
+      # @return [void]
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.0.0
       def redefine_quantity_writer(quantity_attr)
         redefine_method("#{quantity_attr}=") do |quantity|
           quantity = BigDecimal(quantity, Float::DIG) if quantity.is_a?(String)
@@ -94,6 +135,15 @@ module UnitMeasurements
         end
       end
 
+      # Redefines the writer method to set unit attribute.
+      #
+      # @param unit_attr [String] The name of the unit attribute.
+      # @param unit_group [Class] The unit group class for the measurement.
+      #
+      # @return [void]
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.0.0
       def redefine_unit_writer(unit_attr, unit_group)
         redefine_method("#{unit_attr}=") do |unit|
           unit_name = unit_group.unit_group.unit_for(unit).try!(:name)
