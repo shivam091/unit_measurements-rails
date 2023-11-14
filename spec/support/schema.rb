@@ -10,5 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 1) do
+  create_table "things", force: :cascade do |t|
+    t.decimal "height_quantity", precision: 10, scale: 2
+    t.string "height_unit", limit: 12
+    t.timestamp "created_at", null: false
+    t.timestamp "updated_at", null: false
+  end
 end
