@@ -3,25 +3,29 @@
 # -*- warn_indent: true -*-
 
 # The +UnitMeasurements::Rails::ActiveRecord::Length+ module provides a convenient
-# way to define length measured attributes in +ActiveRecord+ models.
+# way to define length-measured attributes in +ActiveRecord+ models.
+#
+# It acts as a wrapper for the +measured+ method, simplifying the definition of
+# length-measured attributes without directly invoking the +measured+ method.
 #
 # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
 # @since 1.1.0
 module UnitMeasurements::Rails::ActiveRecord::Length
-  # Defines a length measured attributes in the +ActiveRecord+ model.
+  # Defines _length-measured_ attributes in the +ActiveRecord+ model.
   #
-  # This method is a convenient wrapper for the +measured+ method, allowing you
-  # to easily define length measured attributes without invoking it directly.
+  # This method serves as a wrapper around the +measured+ method and allows easy
+  # definition of length-measured attributes by accepting an array of attribute
+  # names.
   #
-  # @param [Array<String|Symbol>] measurement_attrs
-  #   An array of the names of length measurement attributes.
+  # @param [Array<String|Symbol>] measured_attrs
+  #   An array of the names of length-measured attributes.
   #
-  # @example Define single length measured attribute:
+  # @example Define single length-measured attribute:
   #   class Thing < ActiveRecord::Base
   #     measured_length :height
   #   end
   #
-  # @example Define multiple length measured attributes:
+  # @example Define multiple length-measured attributes:
   #   class Thing < ActiveRecord::Base
   #     measured_length :length, :width
   #   end
@@ -31,8 +35,8 @@ module UnitMeasurements::Rails::ActiveRecord::Length
   # @see #measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
-  def measured_length(*measurement_attrs)
-    measured(UnitMeasurements::Length, *measurement_attrs)
+  def measured_length(*measured_attrs)
+    measured(UnitMeasurements::Length, *measured_attrs)
   end
 end
 
