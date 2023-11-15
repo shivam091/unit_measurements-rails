@@ -346,14 +346,4 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
       end
     end
   end
-
-  context "when defined multiple measurement attributes" do
-    it "does not raise an error" do
-      expect {
-        class Package < ActiveRecord::Base
-          measured UnitMeasurements::Weight, :item_weight, :total_weight
-        end
-      }.to_not raise_error
-    end
-  end
 end

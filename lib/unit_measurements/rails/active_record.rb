@@ -140,9 +140,7 @@ module UnitMeasurements
             quantity.round(scale)
           else
             nil
-          end
-
-          write_attribute(quantity_attr, quantity)
+          end.tap { |value| write_attribute(quantity_attr, value) }
         end
       end
 
