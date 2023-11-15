@@ -5,55 +5,63 @@
 module UnitMeasurements
   module Rails
     # The +UnitMeasurements::Rails::ActiveRecord+ module enhances ActiveRecord
-    # models by providing a convenient way to handle unit measurements. It allows
-    # you to define measurement attributes in your models with support for
-    # specific unit groups.
+    # models by providing a convenient way to handle unit measurements. It
+    # facilitates defining measurable attributes in models with specific unit
+    # group support.
     #
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.0.0
     module ActiveRecord
-      # Defines a reader and writer methods for the measurement attribute in the
-      # +ActiveRecord+ model.
+      # Defines a _reader_ and _writer_ methods for the measured attributes in
+      # the +ActiveRecord+ model.
       #
-      # @example Defining measured attributes:
-      #   class Thing < ActiveRecord::Base
+      # @example Defining single measured attribute:
+      #   class Cube < ActiveRecord::Base
       #     measured UnitMeasurements::Length, :height
+      #   end
+      #
+      # @example Defining multiple measured attributes:
+      #   class Package < ActiveRecord::Base
+      #     measured UnitMeasurements::Weight, :item_weight, :total_weight
       #   end
       #
       # @param [Class|String] unit_group
       #   The unit group class or its name as a string.
-      # @param [String|Symbol] measurement_attr
-      #   The name of the measurement attribute.
+      # @param [Array<String|Symbol>] measured_attrs
+      #   An array of the names of measured attributes.
       # @return [void]
       #
       # @raise [BaseError]
-      #   if unit_group is not a subclass of UnitMeasurements::Measurement.
+      #   If +unit_group+ is not a subclass of +UnitMeasurements::Measurement+.
       #
       # @see BaseError
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
-      def measured(unit_group, measurement_attr)
+      def measured(unit_group, *measured_attrs)
         unit_group = unit_group.constantize if unit_group.is_a?(String)
 
         validate_unit_group!(unit_group)
 
-        quantity_attr = "#{measurement_attr}_quantity"
-        unit_attr = "#{measurement_attr}_unit"
+        measured_attrs.map(&:to_s).each do |measured_attr|
+          quantity_attr = "#{measured_attr}_quantity"
+          unit_attr = "#{measured_attr}_unit"
 
-        define_measurement_reader(measurement_attr, quantity_attr, unit_attr, unit_group)
-        define_measurement_writer(measurement_attr, quantity_attr, unit_attr, unit_group)
-        redefine_quantity_writer(quantity_attr)
-        redefine_unit_writer(unit_attr, unit_group)
+          define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
+          define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
+          redefine_quantity_writer(quantity_attr)
+          redefine_unit_writer(unit_attr, unit_group)
+        end
       end
 
       private
 
-      # Validates whether the +unit_group+ is a subclass of +UnitMeasurements::Measurement+.
+      # @private
+      # Validates whether +unit_group+ is a subclass of +UnitMeasurements::Measurement+.
       #
       # @param [Class] unit_group The unit group class to be validated.
       #
       # @raise [BaseError]
-      #   if unit_group is not a subclass of UnitMeasurements::Measurement.
+      #   if +unit_group+ is not a subclass of +UnitMeasurements::Measurement+.
       #
       # @return [void]
       #
@@ -65,9 +73,10 @@ module UnitMeasurements
         end
       end
 
-      # Defines the method to read measurement attribute.
+      # @private
+      # Defines the method to read the measured attribute.
       #
-      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] measured_attr The name of the measured attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
@@ -76,8 +85,8 @@ module UnitMeasurements
       #
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
-      def define_measurement_reader(measurement_attr, quantity_attr, unit_attr, unit_group)
-        define_method(measurement_attr) do
+      def define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
+        define_method(measured_attr) do
           quantity, unit = public_send(quantity_attr), public_send(unit_attr)
 
           begin
@@ -88,9 +97,10 @@ module UnitMeasurements
         end
       end
 
-      # Defines the method to write measurement attribute.
+      # @private
+      # Defines the method to write the measured attribute.
       #
-      # @param [String|Symbol] measurement_attr The name of the measurement attribute.
+      # @param [String] measured_attr The name of the measured attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
@@ -99,8 +109,8 @@ module UnitMeasurements
       #
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
-      def define_measurement_writer(measurement_attr, quantity_attr, unit_attr, unit_group)
-        define_method("#{measurement_attr}=") do |measurement|
+      def define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
+        define_method("#{measured_attr}=") do |measurement|
           if measurement.is_a?(unit_group)
             public_send("#{quantity_attr}=", measurement.quantity)
             public_send("#{unit_attr}=", measurement.unit.name)
@@ -111,7 +121,8 @@ module UnitMeasurements
         end
       end
 
-      # Redefines the writer method to set quantity attribute.
+      # @private
+      # Redefines the writer method to set the quantity attribute.
       #
       # @param quantity_attr [String] The name of the quantity attribute.
       #
@@ -129,13 +140,12 @@ module UnitMeasurements
             quantity.round(scale)
           else
             nil
-          end
-
-          write_attribute(quantity_attr, quantity)
+          end.tap { |value| write_attribute(quantity_attr, value) }
         end
       end
 
-      # Redefines the writer method to set unit attribute.
+      # @private
+      # Redefines the writer method to set the unit attribute.
       #
       # @param unit_attr [String] The name of the unit attribute.
       # @param unit_group [Class] The unit group class for the measurement.
@@ -154,6 +164,8 @@ module UnitMeasurements
   end
 end
 
+# ActiveSupport hook to extend ActiveRecord with the `UnitMeasurements::Rails::ActiveRecord`
+# module.
 ActiveSupport.on_load(:active_record) do
   ::ActiveRecord::Base.send :extend, UnitMeasurements::Rails::ActiveRecord
 end

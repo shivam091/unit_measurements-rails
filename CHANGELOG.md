@@ -1,3 +1,15 @@
+## [1.1.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.0.0...v1.1.0) - 2023-11-16
+
+### What's new
+
+- Added ability to define _multiple_ measured attributes at a time.
+- Added wrapper for defining `length` measured attributes.
+- Added wrapper for defining `weight` measured attributes.
+- Added wrapper for defining `volume` measured attributes.
+- Added wrapper for defining `area` measured attributes.
+
+-----------
+
 ## [1.0.0](https://github.com/shivam091/unit_measurements-rails/compare/v0.2.0...v1.0.0) - 2023-11-14
 
 ### What's new
