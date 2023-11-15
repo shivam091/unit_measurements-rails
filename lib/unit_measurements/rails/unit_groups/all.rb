@@ -5,3 +5,4 @@
 require_relative "length"
 require_relative "weight"
 require_relative "volume"
+require_relative "area"
