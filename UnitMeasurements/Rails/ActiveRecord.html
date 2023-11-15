@@ -86,7 +86,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The <code>UnitMeasurements::Rails::ActiveRecord</code> module enhances ActiveRecord models by providing a convenient way to handle unit measurements. It allows you to define measurement attributes in your models with support for specific unit groups.</p>
+<p>The <code>UnitMeasurements::Rails::ActiveRecord</code> module enhances ActiveRecord models by providing a convenient way to handle unit measurements. It facilitates defining measurable attributes in models with specific unit group support.</p>
 
 
   </div>
@@ -126,7 +126,17 @@
   
 </ul>
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="ActiveRecord/Area.html" title="UnitMeasurements::Rails::ActiveRecord::Area (module)">Area</a></span>, <span class='object_link'><a href="ActiveRecord/Length.html" title="UnitMeasurements::Rails::ActiveRecord::Length (module)">Length</a></span>, <span class='object_link'><a href="ActiveRecord/Volume.html" title="UnitMeasurements::Rails::ActiveRecord::Volume (module)">Volume</a></span>, <span class='object_link'><a href="ActiveRecord/Weight.html" title="UnitMeasurements::Rails::ActiveRecord::Weight (module)">Weight</a></span>
+    
+  
+    
+  
+</p>
+
 
 
 
@@ -144,7 +154,7 @@
         <li class="private ">
   <span class="summary_signature">
     
-      <a href="#define_measurement_reader-instance_method" title="#define_measurement_reader (instance method)">#<strong>define_measurement_reader</strong>(measurement_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; void </a>
+      <a href="#define_reader_for_measured_attr-instance_method" title="#define_reader_for_measured_attr (instance method)">#<strong>define_reader_for_measured_attr</strong>(measured_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; void </a>
     
 
     
@@ -159,7 +169,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Defines the method to read measurement attribute.</p>
+<p>Defines the method to read the measured attribute.</p>
 </div></span>
   
 </li>
@@ -168,7 +178,7 @@
         <li class="private ">
   <span class="summary_signature">
     
-      <a href="#define_measurement_writer-instance_method" title="#define_measurement_writer (instance method)">#<strong>define_measurement_writer</strong>(measurement_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; void </a>
+      <a href="#define_writer_for_measured_attr-instance_method" title="#define_writer_for_measured_attr (instance method)">#<strong>define_writer_for_measured_attr</strong>(measured_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; void </a>
     
 
     
@@ -183,7 +193,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Defines the method to write measurement attribute.</p>
+<p>Defines the method to write the measured attribute.</p>
 </div></span>
   
 </li>
@@ -192,7 +202,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#measured-instance_method" title="#measured (instance method)">#<strong>measured</strong>(unit_group, measurement_attr)  &#x21d2; void </a>
+      <a href="#measured-instance_method" title="#measured (instance method)">#<strong>measured</strong>(unit_group, *measured_attrs)  &#x21d2; void </a>
     
 
     
@@ -207,7 +217,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Defines a reader and writer methods for the measurement attribute in the <code>ActiveRecord</code> model.</p>
+<p>Defines a <em>reader</em> and <em>writer</em> methods for the measured attributes in the <code>ActiveRecord</code> model.</p>
 </div></span>
   
 </li>
@@ -231,7 +241,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Redefines the writer method to set quantity attribute.</p>
+<p>Redefines the writer method to set the quantity attribute.</p>
 </div></span>
   
 </li>
@@ -255,7 +265,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Redefines the writer method to set unit attribute.</p>
+<p>Redefines the writer method to set the unit attribute.</p>
 </div></span>
   
 </li>
@@ -279,7 +289,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Validates whether the <code>unit_group</code> is a subclass of <code>UnitMeasurements::Measurement</code>.</p>
+<p>Validates whether <code>unit_group</code> is a subclass of <code>UnitMeasurements::Measurement</code>.</p>
 </div></span>
   
 </li>
@@ -295,9 +305,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="define_measurement_reader-instance_method">
+  <h3 class="signature first" id="define_reader_for_measured_attr-instance_method">
   
-    #<strong>define_measurement_reader</strong>(measurement_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; <tt>void</tt>  <span class="extras">(private)</span>
+    #<strong>define_reader_for_measured_attr</strong>(measured_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; <tt>void</tt>  <span class="extras">(private)</span>
   
 
   
@@ -306,7 +316,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Defines the method to read measurement attribute.</p>
+<p>Defines the method to read the measured attribute.</p>
 
 
   </div>
@@ -317,16 +327,16 @@
   
     <li>
       
-        <span class='name'>measurement_attr</span>
+        <span class='name'>measured_attr</span>
       
       
-        <span class='type'>(<tt>String|Symbol</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The name of the measurement attribute.</p>
+<p>The name of the measured attribute.</p>
 </div>
       
     </li>
@@ -420,23 +430,23 @@
       <pre class="lines">
 
 
-79
-80
-81
-82
-83
-84
-85
-86
-87
 88
-89</pre>
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 88</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_define_measurement_reader'>define_measurement_reader</span><span class='lparen'>(</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='rparen'>)</span> <span class='kw'>do</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_define_reader_for_measured_attr'>define_reader_for_measured_attr</span><span class='lparen'>(</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='rparen'>)</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_quantity'>quantity</span><span class='comma'>,</span> <span class='id identifier rubyid_unit'>unit</span> <span class='op'>=</span> <span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='rparen'>)</span>
 
     <span class='kw'>begin</span>
@@ -452,9 +462,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="define_measurement_writer-instance_method">
+  <h3 class="signature " id="define_writer_for_measured_attr-instance_method">
   
-    #<strong>define_measurement_writer</strong>(measurement_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; <tt>void</tt>  <span class="extras">(private)</span>
+    #<strong>define_writer_for_measured_attr</strong>(measured_attr, quantity_attr, unit_attr, unit_group)  &#x21d2; <tt>void</tt>  <span class="extras">(private)</span>
   
 
   
@@ -463,7 +473,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Defines the method to write measurement attribute.</p>
+<p>Defines the method to write the measured attribute.</p>
 
 
   </div>
@@ -474,16 +484,16 @@
   
     <li>
       
-        <span class='name'>measurement_attr</span>
+        <span class='name'>measured_attr</span>
       
       
-        <span class='type'>(<tt>String|Symbol</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The name of the measurement attribute.</p>
+<p>The name of the measured attribute.</p>
 </div>
       
     </li>
@@ -577,23 +587,23 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112</pre>
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 112</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_define_measurement_writer'>define_measurement_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_measurement'>measurement</span><span class='op'>|</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_define_writer_for_measured_attr'>define_writer_for_measured_attr</span><span class='lparen'>(</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_measurement'>measurement</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_measurement'>measurement</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_measurement'>measurement</span><span class='period'>.</span><span class='id identifier rubyid_quantity'>quantity</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_measurement'>measurement</span><span class='period'>.</span><span class='id identifier rubyid_unit'>unit</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -611,7 +621,7 @@
       <div class="method_details ">
   <h3 class="signature " id="measured-instance_method">
   
-    #<strong>measured</strong>(unit_group, measurement_attr)  &#x21d2; <tt>void</tt> 
+    #<strong>measured</strong>(unit_group, *measured_attrs)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -620,7 +630,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Defines a reader and writer methods for the measurement attribute in the <code>ActiveRecord</code> model.</p>
+<p>Defines a <em>reader</em> and <em>writer</em> methods for the measured attributes in the <code>ActiveRecord</code> model.</p>
 
 
   </div>
@@ -632,11 +642,20 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>Defining measured attributes:</p>
+<p>Defining single measured attribute:</p>
 </div></p>
       
-      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Thing</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Cube</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
   <span class='id identifier rubyid_measured'>measured</span> <span class='const'><span class='object_link'><a href="../../UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Length</span><span class='comma'>,</span> <span class='symbol'>:height</span>
+<span class='kw'>end</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Defining multiple measured attributes:</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Package</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_measured'>measured</span> <span class='const'><span class='object_link'><a href="../../UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Weight</span><span class='comma'>,</span> <span class='symbol'>:item_weight</span><span class='comma'>,</span> <span class='symbol'>:total_weight</span>
 <span class='kw'>end</span></code></pre>
     
   </div>
@@ -661,16 +680,16 @@
   
     <li>
       
-        <span class='name'>measurement_attr</span>
+        <span class='name'>measured_attrs</span>
       
       
-        <span class='type'>(<tt>String|Symbol</tt>)</span>
+        <span class='type'>(<tt>Array&lt;String|Symbol&gt;</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The name of the measurement attribute.</p>
+<p>An array of the names of measured attributes.</p>
 </div>
       
     </li>
@@ -689,7 +708,7 @@
       
         &mdash;
         <div class='inline'>
-<p>if unit_group is not a subclass of UnitMeasurements::Measurement.</p>
+<p>If <code>unit_group</code> is not a subclass of <code>UnitMeasurements::Measurement</code>.</p>
 </div>
       
     </li>
@@ -741,11 +760,6 @@
       <pre class="lines">
 
 
-35
-36
-37
-38
-39
 40
 41
 42
@@ -753,23 +767,32 @@
 44
 45
 46
-47</pre>
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 40</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_measured'>measured</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_group'>unit_group</span><span class='comma'>,</span> <span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_measured'>measured</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_group'>unit_group</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unit_group'>unit_group</span> <span class='op'>=</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span> <span class='kw'>if</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_validate_unit_group!'>validate_unit_group!</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_quantity_attr'>quantity_attr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>_quantity</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_unit_attr'>unit_attr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>_unit</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='op'>|</span>
+    <span class='id identifier rubyid_quantity_attr'>quantity_attr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>_quantity</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_unit_attr'>unit_attr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>_unit</span><span class='tstring_end'>&quot;</span></span>
 
-  <span class='id identifier rubyid_define_measurement_reader'>define_measurement_reader</span><span class='lparen'>(</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_define_measurement_writer'>define_measurement_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_measurement_attr'>measurement_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_redefine_quantity_writer'>redefine_quantity_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_redefine_unit_writer'>redefine_unit_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_define_reader_for_measured_attr'>define_reader_for_measured_attr</span><span class='lparen'>(</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_define_writer_for_measured_attr'>define_writer_for_measured_attr</span><span class='lparen'>(</span><span class='id identifier rubyid_measured_attr'>measured_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redefine_quantity_writer'>redefine_quantity_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redefine_unit_writer'>redefine_unit_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -788,7 +811,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Redefines the writer method to set quantity attribute.</p>
+<p>Redefines the writer method to set the quantity attribute.</p>
 
 
   </div>
@@ -854,24 +877,22 @@
       <pre class="lines">
 
 
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
 133
 134
 135
-136</pre>
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_redefine_quantity_writer'>redefine_quantity_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_redefine_method'>redefine_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_quantity'>quantity</span><span class='op'>|</span>
@@ -883,9 +904,7 @@
       <span class='id identifier rubyid_quantity'>quantity</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_scale'>scale</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>nil</span>
-    <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_write_attribute'>write_attribute</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_quantity'>quantity</span><span class='rparen'>)</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='op'>|</span> <span class='id identifier rubyid_write_attribute'>write_attribute</span><span class='lparen'>(</span><span class='id identifier rubyid_quantity_attr'>quantity_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -905,7 +924,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Redefines the writer method to set unit attribute.</p>
+<p>Redefines the writer method to set the unit attribute.</p>
 
 
   </div>
@@ -987,15 +1006,15 @@
       <pre class="lines">
 
 
-147
-148
-149
-150
-151
-152</pre>
+157
+158
+159
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_redefine_unit_writer'>redefine_unit_writer</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='comma'>,</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_redefine_method'>redefine_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_unit_attr'>unit_attr</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_unit'>unit</span><span class='op'>|</span>
@@ -1020,7 +1039,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Validates whether the <code>unit_group</code> is a subclass of <code>UnitMeasurements::Measurement</code>.</p>
+<p>Validates whether <code>unit_group</code> is a subclass of <code>UnitMeasurements::Measurement</code>.</p>
 
 
   </div>
@@ -1059,7 +1078,7 @@
       
         &mdash;
         <div class='inline'>
-<p>if unit_group is not a subclass of UnitMeasurements::Measurement.</p>
+<p>if <code>unit_group</code> is not a subclass of <code>UnitMeasurements::Measurement</code>.</p>
 </div>
       
     </li>
@@ -1104,14 +1123,14 @@
       <pre class="lines">
 
 
-62
-63
-64
-65
-66</pre>
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/active_record.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_unit_group!'>validate_unit_group!</span><span class='lparen'>(</span><span class='id identifier rubyid_unit_group'>unit_group</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_unit_group'>unit_group</span><span class='period'>.</span><span class='id identifier rubyid_ancestors'>ancestors</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='const'>Measurement</span><span class='rparen'>)</span>
@@ -1128,7 +1147,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 14 13:18:08 2023 by
+  Generated on Wed Nov 15 13:54:59 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
