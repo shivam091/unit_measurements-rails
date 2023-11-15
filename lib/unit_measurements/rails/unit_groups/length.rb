@@ -21,13 +21,13 @@ module UnitMeasurements::Rails::ActiveRecord::Length
   #   An array of the names of length-measured attributes.
   #
   # @example Define single length-measured attribute:
-  #   class Thing < ActiveRecord::Base
-  #     measured_length :height
+  #   class Cube < ActiveRecord::Base
+  #     measured_length :length
   #   end
   #
   # @example Define multiple length-measured attributes:
-  #   class Thing < ActiveRecord::Base
-  #     measured_length :length, :width
+  #   class Cube < ActiveRecord::Base
+  #     measured_length :height, :width
   #   end
   #
   # @return [void]

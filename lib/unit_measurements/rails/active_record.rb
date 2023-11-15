@@ -16,7 +16,7 @@ module UnitMeasurements
       # the +ActiveRecord+ model.
       #
       # @example Defining single measured attribute:
-      #   class Thing < ActiveRecord::Base
+      #   class Cube < ActiveRecord::Base
       #     measured UnitMeasurements::Length, :height
       #   end
       #
