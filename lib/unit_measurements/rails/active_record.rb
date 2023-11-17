@@ -38,13 +38,15 @@ module UnitMeasurements
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
       def measured(unit_group, *measured_attrs)
+        options = measured_attrs.extract_options!.reverse_merge(quantity_field_name: nil, unit_field_name: nil)
+
         unit_group = unit_group.constantize if unit_group.is_a?(String)
 
         validate_unit_group!(unit_group)
 
         measured_attrs.map(&:to_s).each do |measured_attr|
-          quantity_attr = "#{measured_attr}_quantity"
-          unit_attr = "#{measured_attr}_unit"
+          quantity_attr = options[:quantity_field_name] || "#{measured_attr}_quantity"
+          unit_attr = options[:unit_field_name] || "#{measured_attr}_unit"
 
           define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
           define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
@@ -133,7 +135,7 @@ module UnitMeasurements
       def redefine_quantity_writer(quantity_attr)
         redefine_method("#{quantity_attr}=") do |quantity|
           quantity = BigDecimal(quantity, Float::DIG) if quantity.is_a?(String)
-          quantity = if quantity
+          if quantity
             db_column_props = self.column_for_attribute(quantity_attr)
             precision, scale = db_column_props.precision, db_column_props.scale
 
