@@ -38,21 +38,27 @@ module UnitMeasurements
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
       def measured(unit_group, *measured_attrs)
-        options = measured_attrs.extract_options!.reverse_merge(quantity_field_name: nil, unit_field_name: nil)
+        options = measured_attrs.extract_options!.reverse_merge(quantity_attribute_name: nil, unit_attribute_name: nil)
 
         unit_group = unit_group.constantize if unit_group.is_a?(String)
+        options[:unit_group] = unit_group
 
         validate_unit_group!(unit_group)
 
         measured_attrs.map(&:to_s).each do |measured_attr|
-          quantity_attr = options[:quantity_field_name] || "#{measured_attr}_quantity"
-          unit_attr = options[:unit_field_name] || "#{measured_attr}_unit"
+          measured_fields[measured_attr] = options
+          quantity_attr = options[:quantity_attribute_name] || "#{measured_attr}_quantity"
+          unit_attr = options[:unit_attribute_name] || "#{measured_attr}_unit"
 
           define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
           define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
           redefine_quantity_writer(quantity_attr)
           redefine_unit_writer(unit_attr, unit_group)
         end
+      end
+
+      def measured_fields
+        @measured_fields ||= {}
       end
 
       private

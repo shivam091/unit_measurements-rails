@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 1) do
     t.string "length_unit", limit: 12
     t.decimal "width_quantity", precision: 10, scale: 2
     t.string "width_unit", limit: 12
-    t.decimal "height_quantity", precision: 10, scale: 2
+    t.decimal "height_value", precision: 10, scale: 2
     t.string "height_unit", limit: 12
   end
 

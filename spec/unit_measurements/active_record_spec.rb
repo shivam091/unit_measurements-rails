@@ -4,6 +4,8 @@
 
 # spec/unit_measurements/active_record_spec.rb
 
+require "byebug"
+
 RSpec.describe UnitMeasurements::Rails::ActiveRecord do
   let(:height) { UnitMeasurements::Length.new(10, "cm") }
   let(:new_height) { UnitMeasurements::Length.new(20, "in") }
@@ -24,6 +26,7 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
     end
 
     it "defines attribute methods" do
+      debugger
       expect(cube).to respond_to(:height)
       expect(cube).to respond_to(:height=)
     end
