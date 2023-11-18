@@ -11,6 +11,9 @@
 # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
 # @since 1.1.0
 module UnitMeasurements::Rails::ActiveRecord::Volume
+  extend ActiveSupport::Concern
+
+  # @!method measured_volume(*measured_attrs)
   # Defines _volume-measured_ attributes in the +ActiveRecord+ model.
   #
   # This method serves as a wrapper around the +measured+ method and allows easy
@@ -35,12 +38,14 @@ module UnitMeasurements::Rails::ActiveRecord::Volume
   # @see #measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
-  def measured_volume(*measured_attrs)
-    measured(UnitMeasurements::Volume, *measured_attrs)
+  class_methods do
+    def measured_volume(*measured_attrs)
+      measured(UnitMeasurements::Volume, *measured_attrs)
+    end
   end
 end
 
 # ActiveSupport hook to extend ActiveRecord with the `UnitMeasurements::Rails::ActiveRecord::Volume` module.
 ActiveSupport.on_load(:active_record) do
-  ::ActiveRecord::Base.send :extend, UnitMeasurements::Rails::ActiveRecord::Volume
+  ::ActiveRecord::Base.send(:include, UnitMeasurements::Rails::ActiveRecord::Volume)
 end

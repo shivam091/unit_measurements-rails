@@ -168,6 +168,12 @@ module UnitMeasurements
           write_attribute(unit_attr, (unit_name || unit))
         end
       end
+
+      def check_columns_existence(*attrs)
+        unless (missing_columns = attrs.reject { |attr| self.class.column_names.include?(attr) }).empty?
+          raise ArgumentError, "Columns '#{missing_columns.join(', ')}' do not exist in the database for #{self.name}."
+        end
+      end
     end
   end
 end
