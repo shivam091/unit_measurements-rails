@@ -2,6 +2,15 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
+# The +UnitMeasurements+ module provides functionality for handling unit
+# measurements. It includes various classes and modules for persisting and
+# retrieving measurements with their units.
+#
+# The module also offers support for integrating with Rails ActiveRecord models
+# for handling unit measurements conveniently.
+#
+# @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+# @since 1.0.0
 module UnitMeasurements
   module Rails
     # The +UnitMeasurements::Rails::ActiveRecord+ module enhances ActiveRecord
@@ -12,6 +21,7 @@ module UnitMeasurements
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.0.0
     module ActiveRecord
+      # @!scope class
       # Defines a _reader_ and _writer_ methods for the measured attributes in
       # the +ActiveRecord+ model.
       #
@@ -55,6 +65,7 @@ module UnitMeasurements
 
       private
 
+      # @!scope class
       # @private
       # Validates whether +unit_group+ is a subclass of +UnitMeasurements::Measurement+.
       #
@@ -73,6 +84,7 @@ module UnitMeasurements
         end
       end
 
+      # @!scope class
       # @private
       # Defines the method to read the measured attribute.
       #
@@ -97,6 +109,7 @@ module UnitMeasurements
         end
       end
 
+      # @!scope class
       # @private
       # Defines the method to write the measured attribute.
       #
@@ -121,6 +134,7 @@ module UnitMeasurements
         end
       end
 
+      # @!scope class
       # @private
       # Redefines the writer method to set the quantity attribute.
       #
@@ -144,6 +158,7 @@ module UnitMeasurements
         end
       end
 
+      # @!scope class
       # @private
       # Redefines the writer method to set the unit attribute.
       #
@@ -167,5 +182,5 @@ end
 # ActiveSupport hook to extend ActiveRecord with the `UnitMeasurements::Rails::ActiveRecord`
 # module.
 ActiveSupport.on_load(:active_record) do
-  ::ActiveRecord::Base.send :extend, UnitMeasurements::Rails::ActiveRecord
+  ::ActiveRecord::Base.send(:extend, UnitMeasurements::Rails::ActiveRecord)
 end

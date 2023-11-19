@@ -11,6 +11,7 @@
 # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
 # @since 1.1.0
 module UnitMeasurements::Rails::ActiveRecord::Length
+  # @!scope class
   # Defines _length-measured_ attributes in the +ActiveRecord+ model.
   #
   # This method serves as a wrapper around the +measured+ method and allows easy
@@ -32,7 +33,7 @@ module UnitMeasurements::Rails::ActiveRecord::Length
   #
   # @return [void]
   #
-  # @see #measured
+  # @see .measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
   def measured_length(*measured_attrs)
@@ -42,5 +43,5 @@ end
 
 # ActiveSupport hook to extend ActiveRecord with the `UnitMeasurements::Rails::ActiveRecord::Length` module.
 ActiveSupport.on_load(:active_record) do
-  ::ActiveRecord::Base.send :extend, UnitMeasurements::Rails::ActiveRecord::Length
+  ::ActiveRecord::Base.send(:extend, UnitMeasurements::Rails::ActiveRecord::Length)
 end

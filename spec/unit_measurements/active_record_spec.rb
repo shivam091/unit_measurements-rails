@@ -10,7 +10,7 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
 
   let(:cube) { Cube.new(height: height) }
 
-  describe "#measured" do
+  describe ".measured" do
     it "raises an error if called with something that isn't a UnitMeasurements::Measurement" do
       expect {
         Cube.measured(Object, :field)
