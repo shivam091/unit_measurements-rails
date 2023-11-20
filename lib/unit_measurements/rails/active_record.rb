@@ -184,7 +184,7 @@ module UnitMeasurements
       def redefine_quantity_writer(quantity_attr)
         redefine_method("#{quantity_attr}=") do |quantity|
           quantity = BigDecimal(quantity, Float::DIG) if quantity.is_a?(String)
-          quantity = if quantity
+          if quantity
             db_column_props = self.column_for_attribute(quantity_attr)
             precision, scale = db_column_props.precision, db_column_props.scale
 
@@ -208,7 +208,7 @@ module UnitMeasurements
       # @since 1.0.0
       def redefine_unit_writer(unit_attr, unit_group)
         redefine_method("#{unit_attr}=") do |unit|
-          unit_name = unit_group.unit_group.unit_for(unit).try!(:name)
+          unit_name = unit_group.unit_for(unit).try!(:name)
           write_attribute(unit_attr, (unit_name || unit))
         end
       end
