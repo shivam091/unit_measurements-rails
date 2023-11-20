@@ -20,6 +20,9 @@ module UnitMeasurements::Rails::ActiveRecord::Volume
   #
   # @param [Array<String|Symbol>] measured_attrs
   #   An array of the names of volume-measured attributes.
+  # @param [Hash] options A customizable set of options
+  # @option options [String|Symbol] :quantity_attribute_name The name of the quantity attribute.
+  # @option options [String|Symbol] :unit_attribute_name The name of the unit attribute.
   #
   # @example Define single volume-measured attribute:
   #   class Container < ActiveRecord::Base
@@ -36,8 +39,8 @@ module UnitMeasurements::Rails::ActiveRecord::Volume
   # @see .measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
-  def measured_volume(*measured_attrs)
-    measured(UnitMeasurements::Volume, *measured_attrs)
+  def measured_volume(*measured_attrs, **options)
+    measured(UnitMeasurements::Volume, *measured_attrs, **options)
   end
 end
 

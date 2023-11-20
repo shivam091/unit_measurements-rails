@@ -20,6 +20,9 @@ module UnitMeasurements::Rails::ActiveRecord::Area
   #
   # @param [Array<String|Symbol>] measured_attrs
   #   An array of the names of area-measured attributes.
+  # @param [Hash] options A customizable set of options
+  # @option options [String|Symbol] :quantity_attribute_name The name of the quantity attribute.
+  # @option options [String|Symbol] :unit_attribute_name The name of the unit attribute.
   #
   # @example Define single area-measured attribute:
   #   class Land < ActiveRecord::Base
@@ -36,8 +39,8 @@ module UnitMeasurements::Rails::ActiveRecord::Area
   # @see .measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
-  def measured_area(*measured_attrs)
-    measured(UnitMeasurements::Area, *measured_attrs)
+  def measured_area(*measured_attrs, **options)
+    measured(UnitMeasurements::Area, *measured_attrs, **options)
   end
 end
 
