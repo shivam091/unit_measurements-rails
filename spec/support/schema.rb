@@ -64,4 +64,13 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal "external_density_quantity", precision: 10, scale: 2
     t.string "external_density_unit", limit: 12
   end
+
+  create_table "weather_reports", force: :cascade do |t|
+    t.decimal "average_temperature_quantity", precision: 10, scale: 2
+    t.string "average_temperature_unit", limit: 12
+    t.decimal "day_temperature_quantity", precision: 10, scale: 2
+    t.string "day_temperature_unit", limit: 12
+    t.decimal "night_temperature_quantity", precision: 10, scale: 2
+    t.string "night_temperature_unit", limit: 12
+  end
 end
