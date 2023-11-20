@@ -98,6 +98,8 @@
 
 <p>Attribute names are expected to have the <code>_quantity</code> and <code>_unit</code> suffix, and be <code>DECIMAL</code> and <code>VARCHAR</code> types, respectively, and defaults values are accepted.</p>
 
+<p>Customizing the accessors used to hold quantity and unit is supported, see below for details.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>CreateTableCubes</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Migration</span><span class='lbracket'>[</span><span class='float'>7.0</span><span class='rbracket'>]</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_change'>change</span>
     <span class='id identifier rubyid_create_table'>create_table</span> <span class='symbol'>:cubes</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>
@@ -143,6 +145,15 @@
 <span class='kw'>end</span>
 </code></pre>
 
+<p>You can optionally customize the model’s quantity and unit accessors by specifying them in the <code>quantity_attribute_name</code> and <code>unit_attribute_name</code> option, respectively, as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>CubeWithCustomAccessor</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:length</span><span class='comma'>,</span> <span class='label'>unit_attribute_name:</span> <span class='symbol'>:length_uom</span>
+  <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:width</span><span class='comma'>,</span> <span class='label'>quantity_attribute_name:</span> <span class='symbol'>:width_value</span>
+  <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:height</span><span class='comma'>,</span> <span class='label'>quantity_attribute_name:</span> <span class='symbol'>:height_value</span><span class='comma'>,</span> <span class='label'>unit_attribute_name:</span> <span class='symbol'>:height_uom</span>
+<span class='kw'>end</span>
+</code></pre>
+
 <p>There are some simpler methods for predefined types:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Package</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
@@ -180,7 +191,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Wed Nov 15 13:54:58 2023 by
+  Generated on Mon Nov 20 13:45:59 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
