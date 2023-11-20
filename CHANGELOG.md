@@ -1,3 +1,11 @@
+## [1.2.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.1.0...v1.2.0) - 2023-11-20
+
+### What's new
+
+- Added method `.measured_fields` to provide ability to maintain measured attribute names and their options.
+
+-----------
+
 ## [1.1.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.0.0...v1.1.0) - 2023-11-16
 
 ### What's new
@@ -14,7 +22,7 @@
 
 ### What's new
 
-- Added method `measured` to store and retrieve measurement object.
+- Added method `.measured` to store and retrieve measurement object.
 - Added RDoc for modules and classes.
 
 -----------
