@@ -55,4 +55,31 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal "package_weight_quantity", precision: 10, scale: 2
     t.string "package_weight_unit", limit: 12
   end
+
+  create_table "substances", force: :cascade do |t|
+    t.decimal "total_density_quantity", precision: 10, scale: 2
+    t.string "total_density_unit", limit: 12
+    t.decimal "internal_density_quantity", precision: 10, scale: 2
+    t.string "internal_density_unit", limit: 12
+    t.decimal "external_density_quantity", precision: 10, scale: 2
+    t.string "external_density_unit", limit: 12
+  end
+
+  create_table "weather_reports", force: :cascade do |t|
+    t.decimal "average_temperature_quantity", precision: 10, scale: 2
+    t.string "average_temperature_unit", limit: 12
+    t.decimal "day_temperature_quantity", precision: 10, scale: 2
+    t.string "day_temperature_unit", limit: 12
+    t.decimal "night_temperature_quantity", precision: 10, scale: 2
+    t.string "night_temperature_unit", limit: 12
+  end
+
+  create_table "project_timelines", force: :cascade do |t|
+    t.decimal "duration_quantity", precision: 10, scale: 2
+    t.string "duration_unit", limit: 12
+    t.decimal "setup_time_quantity", precision: 10, scale: 2
+    t.string "setup_time_unit", limit: 12
+    t.decimal "processing_time_quantity", precision: 10, scale: 2
+    t.string "processing_time_unit", limit: 12
+  end
 end

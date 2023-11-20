@@ -1,3 +1,14 @@
+## [1.3.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.2.0...v1.3.0) - 2023-11-22
+
+### What's new
+
+- Raise `BaseError` if already measured attribute.
+- Added wrapper for defining `density` measured attributes.
+- Added wrapper for defining `temperature` measured attributes.
+- Added wrapper for defining `time` measured attributes.
+
+-----------
+
 ## [1.2.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.1.0...v1.2.0) - 2023-11-20
 
 ### What's new
