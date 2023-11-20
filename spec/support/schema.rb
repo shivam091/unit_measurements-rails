@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 1) do
     t.string "height_unit", limit: 12
   end
 
+  create_table "cube_with_custom_accessors", force: :cascade do |t|
+    t.decimal "length_quantity", precision: 10, scale: 2
+    t.string "length_uom", limit: 12
+    t.decimal "width_value", precision: 10, scale: 2
+    t.string "width_unit", limit: 12
+    t.decimal "height_value", precision: 10, scale: 2
+    t.string "height_uom", limit: 12
+  end
+
   create_table "containers", force: :cascade do |t|
     t.decimal "total_volume_quantity", precision: 10, scale: 2
     t.string "total_volume_unit", limit: 12

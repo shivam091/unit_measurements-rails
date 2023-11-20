@@ -11,6 +11,7 @@
 # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
 # @since 1.1.0
 module UnitMeasurements::Rails::ActiveRecord::Area
+  # @!scope class
   # Defines _area-measured_ attributes in the +ActiveRecord+ model.
   #
   # This method serves as a wrapper around the +measured+ method and allows easy
@@ -19,6 +20,9 @@ module UnitMeasurements::Rails::ActiveRecord::Area
   #
   # @param [Array<String|Symbol>] measured_attrs
   #   An array of the names of area-measured attributes.
+  # @param [Hash] options A customizable set of options
+  # @option options [String|Symbol] :quantity_attribute_name The name of the quantity attribute.
+  # @option options [String|Symbol] :unit_attribute_name The name of the unit attribute.
   #
   # @example Define single area-measured attribute:
   #   class Land < ActiveRecord::Base
@@ -32,15 +36,15 @@ module UnitMeasurements::Rails::ActiveRecord::Area
   #
   # @return [void]
   #
-  # @see #measured
+  # @see .measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 1.1.0
-  def measured_area(*measured_attrs)
-    measured(UnitMeasurements::Area, *measured_attrs)
+  def measured_area(*measured_attrs, **options)
+    measured(UnitMeasurements::Area, *measured_attrs, **options)
   end
 end
 
 # ActiveSupport hook to extend ActiveRecord with the `UnitMeasurements::Rails::ActiveRecord::Area` module.
 ActiveSupport.on_load(:active_record) do
-  ::ActiveRecord::Base.send :extend, UnitMeasurements::Rails::ActiveRecord::Area
+  ::ActiveRecord::Base.send(:extend, UnitMeasurements::Rails::ActiveRecord::Area)
 end

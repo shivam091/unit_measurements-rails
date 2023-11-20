@@ -41,7 +41,11 @@ Or otherwise simply install it yourself as:
 
 ### ActiveRecord
 
-Attribute names are expected to have the `_quantity` and `_unit` suffix, and be `DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
+Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
+`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
+
+Customizing the accessors used to hold quantity and unit is supported, see below
+for details.
 
 ```ruby
 class CreateTableCubes < ActiveRecord::Migration[7.0]
@@ -91,6 +95,18 @@ You can specify multiple measured attributes at a time:
 ```ruby
 class Land < ActiveRecord::Base
   measured UnitMeasurements::Area, :carpet_area, :buildup_area
+end
+```
+
+You can optionally customize the model's quantity and unit accessors by specifying
+them in the `quantity_attribute_name` and `unit_attribute_name` option, respectively,
+as follows:
+
+```ruby
+class CubeWithCustomAccessor < ActiveRecord::Base
+  measured_length :length, unit_attribute_name: :length_uom
+  measured_length :width, quantity_attribute_name: :width_value
+  measured_length :height, quantity_attribute_name: :height_value, unit_attribute_name: :height_uom
 end
 ```
 
