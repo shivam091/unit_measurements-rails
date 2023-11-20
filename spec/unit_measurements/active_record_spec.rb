@@ -31,6 +31,12 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
       expect(cube).to respond_to(:height=)
     end
 
+    it "raises if you attempt to define a field twice" do
+      expect {
+        Cube.measured UnitMeasurements::Length, :height
+      }.to raise_error(UnitMeasurements::Rails::BaseError, "The field 'height' has already been measured.")
+    end
+
     describe "when retrieve and assign operations are performed" do
       it "correctly sets and gets the measured attribute" do
         height_measurement = UnitMeasurements::Length.new(5, "meters")

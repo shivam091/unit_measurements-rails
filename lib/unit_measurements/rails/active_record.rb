@@ -60,6 +60,8 @@ module UnitMeasurements
         options[:unit_group] = unit_group
 
         measured_attrs.map(&:to_s).each do |measured_attr|
+          raise BaseError, "The field '#{measured_attr}' has already been measured." if measured_attributes.key?(measured_attr)
+
           quantity_attr = options[:quantity_attribute_name]&.to_s || "#{measured_attr}_quantity"
           unit_attr = options[:unit_attribute_name]&.to_s || "#{measured_attr}_unit"
 
