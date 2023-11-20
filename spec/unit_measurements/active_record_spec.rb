@@ -5,10 +5,13 @@
 # spec/unit_measurements/active_record_spec.rb
 
 RSpec.describe UnitMeasurements::Rails::ActiveRecord do
+  let(:length) { UnitMeasurements::Length.new(10, "ft") }
+  let(:width) { UnitMeasurements::Length.new(5, "ft") }
   let(:height) { UnitMeasurements::Length.new(10, "cm") }
   let(:new_height) { UnitMeasurements::Length.new(20, "in") }
 
   let(:cube) { Cube.new(height: height) }
+  let(:cube_with_custom_accessors) { CubeWithCustomAccessor.new(length: length, width: width, height: height) }
 
   describe ".measured" do
     it "raises an error if called with something that isn't a UnitMeasurements::Measurement" do
@@ -343,6 +346,20 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
             expect(cube.height_quantity).to eq(BigDecimal("4.46"))
           }.to_not raise_error
         end
+      end
+    end
+
+    context "using custom *_quantity and *_unit accessors" do
+      it "works correctly with custom *_quantity accessors" do
+        expect(cube_with_custom_accessors.length).to eq(UnitMeasurements::Length.new(10, "ft"))
+        expect(cube_with_custom_accessors.width).to eq(UnitMeasurements::Length.new(5, "ft"))
+        expect(cube_with_custom_accessors.height).to eq(UnitMeasurements::Length.new(10, "cm"))
+      end
+
+      it "works correctly with custom *_unit accessors" do
+        expect(cube_with_custom_accessors.length).to eq(UnitMeasurements::Length.new(10, "ft"))
+        expect(cube_with_custom_accessors.width).to eq(UnitMeasurements::Length.new(5, "ft"))
+        expect(cube_with_custom_accessors.height).to eq(UnitMeasurements::Length.new(10, "cm"))
       end
     end
   end
