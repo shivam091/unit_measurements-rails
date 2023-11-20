@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Module: UnitMeasurements::Rails::ActiveRecord::Volume
+  Module: UnitMeasurements::Rails::ActiveRecord::Temperature
   
     &mdash; Documentation by YARD 0.9.34
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "UnitMeasurements::Rails::ActiveRecord::Volume";
+  pathId = "UnitMeasurements::Rails::ActiveRecord::Temperature";
   relpath = '../../../';
 </script>
 
@@ -36,10 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../../../_index.html">Index (V)</a> &raquo;
+    <a href="../../../_index.html">Index (T)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../../UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Rails.html" title="UnitMeasurements::Rails (module)">Rails</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../ActiveRecord.html" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span>
      &raquo; 
-    <span class="title">Volume</span>
+    <span class="title">Temperature</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Module: UnitMeasurements::Rails::ActiveRecord::Volume
+      <div id="content"><h1>Module: UnitMeasurements::Rails::ActiveRecord::Temperature
   
   
   
@@ -78,7 +78,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/unit_measurements/rails/unit_groups/volume.rb</dd>
+    <dd>lib/unit_measurements/rails/unit_groups/temperature.rb</dd>
   </dl>
   
 </div>
@@ -86,9 +86,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The <code>UnitMeasurements::Rails::ActiveRecord::Volume</code> module provides a convenient way to define volume-measured attributes in <code>ActiveRecord</code> models.</p>
+<p>The <code>UnitMeasurements::Rails::ActiveRecord::Temperature</code> module provides a convenient way to define temperature-measured attributes in <code>ActiveRecord</code> models.</p>
 
-<p>It acts as a wrapper for the <code>measured</code> method, simplifying the definition of volume-measured attributes without directly invoking the <code>measured</code> method.</p>
+<p>It acts as a wrapper for the <code>measured</code> method, simplifying the definition of temperature-measured attributes without directly invoking the <code>measured</code> method.</p>
 
 
   </div>
@@ -121,7 +121,7 @@
       
         
         <div class='inline'>
-<p>1.1.0</p>
+<p>1.3.0</p>
 </div>
       
     </li>
@@ -146,7 +146,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#measured_volume-class_method" title="measured_volume (class method)">.<strong>measured_volume</strong>(*measured_attrs, **options)  &#x21d2; void </a>
+      <a href="#measured_temperature-class_method" title="measured_temperature (class method)">.<strong>measured_temperature</strong>(*measured_attrs, **options)  &#x21d2; void </a>
     
 
     
@@ -161,7 +161,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Defines <em>volume-measured</em> attributes in the <code>ActiveRecord</code> model.</p>
+<p>Defines <em>temperature-measured</em> attributes in the <code>ActiveRecord</code> model.</p>
 </div></span>
   
 </li>
@@ -177,9 +177,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="measured_volume-class_method">
+  <h3 class="signature first" id="measured_temperature-class_method">
   
-    .<strong>measured_volume</strong>(*measured_attrs, **options)  &#x21d2; <tt>void</tt> 
+    .<strong>measured_temperature</strong>(*measured_attrs, **options)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -188,9 +188,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Defines <em>volume-measured</em> attributes in the <code>ActiveRecord</code> model.</p>
+<p>Defines <em>temperature-measured</em> attributes in the <code>ActiveRecord</code> model.</p>
 
-<p>This method serves as a wrapper around the <code>measured</code> method and allows easy definition of volume-measured attributes by accepting an array of attribute names along with their options.</p>
+<p>This method serves as a wrapper around the <code>measured</code> method and allows easy definition of temperature-measured attributes by accepting an array of attribute names along with their options.</p>
 
 
   </div>
@@ -202,20 +202,20 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>Define single volume-measured attribute:</p>
+<p>Define single temperature-measured attribute:</p>
 </div></p>
       
-      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Container</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="../ActiveRecord.html" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
-  <span class='id identifier rubyid_measured_volume'>measured_volume</span> <span class='symbol'>:total_volume</span>
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>WeatherReport</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="../ActiveRecord.html" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_measured_temperature'>measured_temperature</span> <span class='symbol'>:average_temperature</span>
 <span class='kw'>end</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
-<p>Define multiple volume-measured attributes:</p>
+<p>Define multiple temperature-measured attributes:</p>
 </div></p>
       
-      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>Container</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="../ActiveRecord.html" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
-  <span class='id identifier rubyid_measured_volume'>measured_volume</span> <span class='symbol'>:internal_volume</span><span class='comma'>,</span> <span class='symbol'>:external_volume</span>
+      <pre class="example code"><code><span class='kw'>class</span> <span class='const'>WeatherReport</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="../ActiveRecord.html" title="UnitMeasurements::Rails::ActiveRecord (module)">ActiveRecord</a></span></span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_measured_temperature'>measured_temperature</span> <span class='symbol'>:day_temperature</span><span class='comma'>,</span> <span class='symbol'>:night_temperature</span>
 <span class='kw'>end</span></code></pre>
     
   </div>
@@ -233,7 +233,7 @@
       
         &mdash;
         <div class='inline'>
-<p>An array of the names of volume-measured attributes.</p>
+<p>An array of the names of temperature-measured attributes.</p>
 </div>
       
     </li>
@@ -326,7 +326,7 @@
       
         
         <div class='inline'>
-<p>1.1.0</p>
+<p>1.3.0</p>
 </div>
       
     </li>
@@ -344,10 +344,10 @@
 44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/unit_groups/volume.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/unit_measurements/rails/unit_groups/temperature.rb', line 42</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_measured_volume'>measured_volume</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_measured'>measured</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../../UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Volume</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_measured_temperature'>measured_temperature</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_measured'>measured</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../../UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Temperature</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_measured_attrs'>measured_attrs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
