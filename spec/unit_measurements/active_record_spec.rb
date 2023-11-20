@@ -346,4 +346,16 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
       end
     end
   end
+
+  describe ".measured_attributes" do
+    it "returns the configuration for all measured fields on the class" do
+      expected = {
+        "length" => {unit_group: UnitMeasurements::Length, quantity_attribute_name: "length_quantity", unit_attribute_name: "length_unit"},
+        "width" => {unit_group: UnitMeasurements::Length, quantity_attribute_name: "width_quantity", unit_attribute_name: "width_unit"},
+        "height" => {unit_group: UnitMeasurements::Length, quantity_attribute_name: "height_quantity", unit_attribute_name: "height_unit"}
+      }
+
+      expect(Cube.measured_attributes).to eq(expected)
+    end
+  end
 end

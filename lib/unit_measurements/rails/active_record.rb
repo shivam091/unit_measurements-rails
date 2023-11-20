@@ -39,6 +39,10 @@ module UnitMeasurements
       #   The unit group class or its name as a string.
       # @param [Array<String|Symbol>] measured_attrs
       #   An array of the names of measured attributes.
+      # @param [Hash] options A customizable set of options
+      # @option options [String|Symbol] :quantity_attribute_name The name of the quantity attribute.
+      # @option options [String|Symbol] :unit_attribute_name The name of the unit attribute.
+      #
       # @return [void]
       #
       # @raise [BaseError]
@@ -47,20 +51,53 @@ module UnitMeasurements
       # @see BaseError
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
       # @since 1.0.0
-      def measured(unit_group, *measured_attrs)
-        unit_group = unit_group.constantize if unit_group.is_a?(String)
-
+      def measured(unit_group, *measured_attrs, **options)
         validate_unit_group!(unit_group)
 
+        options = options.reverse_merge(quantity_attribute_name: nil, unit_attribute_name: nil)
+        unit_group = unit_group.constantize if unit_group.is_a?(String)
+
+        options[:unit_group] = unit_group
+
         measured_attrs.map(&:to_s).each do |measured_attr|
-          quantity_attr = "#{measured_attr}_quantity"
-          unit_attr = "#{measured_attr}_unit"
+          quantity_attr = options[:quantity_attribute_name]&.to_s || "#{measured_attr}_quantity"
+          unit_attr = options[:unit_attribute_name]&.to_s || "#{measured_attr}_unit"
+
+          measured_attributes[measured_attr] = options.merge(quantity_attribute_name: quantity_attr, unit_attribute_name: unit_attr)
 
           define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
           define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
           redefine_quantity_writer(quantity_attr)
           redefine_unit_writer(unit_attr, unit_group)
         end
+      end
+
+      # @!scope class
+      # Returns a hash containing information about the measured attributes and
+      # their options.
+      #
+      # @return [Hash{String => Hash{Symbol => String|Class}}]
+      #   A hash where keys represent the names of the measured attributes, and
+      #   values are hashes containing the options for each measured attribute.
+      #
+      # @example
+      #   {
+      #     "height" => {
+      #       unit_group: UnitMeasurements::Length,
+      #       quantity_attribute_name: "height_quantity",
+      #       unit_attribute_name: "height_unit"
+      #     },
+      #     "weight" => {
+      #       unit_group: UnitMeasurements::Length,
+      #       quantity_attribute_name: "weight_quantity",
+      #       unit_attribute_name: "weight_unit"
+      #     }
+      #   }
+      #
+      # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
+      # @since 1.2.0
+      def measured_attributes
+        @measured_attributes ||= {}
       end
 
       private
