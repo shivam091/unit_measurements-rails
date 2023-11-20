@@ -73,4 +73,13 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal "night_temperature_quantity", precision: 10, scale: 2
     t.string "night_temperature_unit", limit: 12
   end
+
+  create_table "project_timelines", force: :cascade do |t|
+    t.decimal "duration_quantity", precision: 10, scale: 2
+    t.string "duration_unit", limit: 12
+    t.decimal "setup_time_quantity", precision: 10, scale: 2
+    t.string "setup_time_unit", limit: 12
+    t.decimal "processing_time_quantity", precision: 10, scale: 2
+    t.string "processing_time_unit", limit: 12
+  end
 end
