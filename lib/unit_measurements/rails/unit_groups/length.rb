@@ -16,7 +16,7 @@ module UnitMeasurements::Rails::ActiveRecord::Length
   #
   # This method serves as a wrapper around the +measured+ method and allows easy
   # definition of length-measured attributes by accepting an array of attribute
-  # names.
+  # names along with their options.
   #
   # @param [Array<String|Symbol>] measured_attrs
   #   An array of the names of length-measured attributes.

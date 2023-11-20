@@ -38,7 +38,7 @@ module UnitMeasurements::Rails::ActiveRecord::Density
   #
   # @see .measured
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
-  # @since 1.1.0
+  # @since 1.3.0
   def measured_density(*measured_attrs, **options)
     measured(UnitMeasurements::Density, *measured_attrs, **options)
   end
