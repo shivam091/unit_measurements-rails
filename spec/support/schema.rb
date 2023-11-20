@@ -55,4 +55,13 @@ ActiveRecord::Schema.define(version: 1) do
     t.decimal "package_weight_quantity", precision: 10, scale: 2
     t.string "package_weight_unit", limit: 12
   end
+
+  create_table "substances", force: :cascade do |t|
+    t.decimal "total_density_quantity", precision: 10, scale: 2
+    t.string "total_density_unit", limit: 12
+    t.decimal "internal_density_quantity", precision: 10, scale: 2
+    t.string "internal_density_unit", limit: 12
+    t.decimal "external_density_quantity", precision: 10, scale: 2
+    t.string "external_density_unit", limit: 12
+  end
 end
