@@ -2,7 +2,7 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-# spec/unit_measurements/active_record_spec.rb
+# spec/unit_measurements/rails/active_record_spec.rb
 
 RSpec.describe UnitMeasurements::Rails::ActiveRecord do
   let(:length) { UnitMeasurements::Length.new(10, "ft") }
