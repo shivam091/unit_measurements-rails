@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1) do
+ActiveRecord::Schema.define(version: 9) do
   create_table "cubes", force: :cascade do |t|
     t.decimal "length_quantity", precision: 10, scale: 2
     t.string "length_unit", limit: 12
@@ -81,5 +81,14 @@ ActiveRecord::Schema.define(version: 1) do
     t.string "setup_time_unit", limit: 12
     t.decimal "processing_time_quantity", precision: 10, scale: 2
     t.string "processing_time_unit", limit: 12
+  end
+
+  create_table "validated_cubes", force: :cascade do |t|
+    t.decimal "length_quantity", precision: 10, scale: 2
+    t.string "length_unit", limit: 12
+    t.decimal "length_true_quantity", precision: 10, scale: 2
+    t.string "length_true_unit", limit: 12
+    t.decimal "length_presence_quantity", precision: 10, scale: 2
+    t.string "length_presence_unit", limit: 12
   end
 end

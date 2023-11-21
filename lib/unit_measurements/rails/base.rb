@@ -34,5 +34,6 @@ module UnitMeasurements
 end
 
 require "unit_measurements/rails/active_record"
+require "unit_measurements/rails/measured_validator"
 
 require "unit_measurements/rails/railtie" if defined?(Rails)
