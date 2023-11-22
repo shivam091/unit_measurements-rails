@@ -90,5 +90,21 @@ ActiveRecord::Schema.define(version: 9) do
     t.string "length_true_unit", limit: 12
     t.decimal "length_presence_quantity", precision: 10, scale: 2
     t.string "length_presence_unit", limit: 12
+    t.decimal "length_unit_singular_quantity", precision: 10, scale: 2
+    t.string "length_unit_singular_unit", limit: 12
+    t.decimal "length_units_multiple_quantity", precision: 10, scale: 2
+    t.string "length_units_multiple_unit", limit: 12
+    t.decimal "length_message_quantity", precision: 10, scale: 2
+    t.string "length_message_unit", limit: 12
+    t.decimal "length_message_from_block_quantity", precision: 10, scale: 2
+    t.string "length_message_from_block_unit", limit: 12
+    t.decimal "length_numericality_inclusive_quantity", precision: 10, scale: 2
+    t.string "length_numericality_inclusive_unit", limit: 12
+    t.decimal "length_numericality_exclusive_quantity", precision: 10, scale: 2
+    t.string "length_numericality_exclusive_unit", limit: 12
+    t.decimal "length_numericality_equality_quantity", precision: 10, scale: 2
+    t.string "length_numericality_equality_unit", limit: 12
+    t.decimal "length_invalid_comparison_quantity", precision: 10, scale: 2
+    t.string "length_invalid_comparison_unit", limit: 12
   end
 end
