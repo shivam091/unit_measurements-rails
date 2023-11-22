@@ -33,7 +33,7 @@ RSpec.describe MeasuredValidator do
   let(:length_units) { ["m", "meter", "cm", "mm", "millimeter", "in", "ft", "feet", "yd"] }
 
   context "with default attribute accessors" do
-    it "is valid" do
+    it "is valid when all attributes are valid" do
       expect(cube).to be_valid
     end
 
