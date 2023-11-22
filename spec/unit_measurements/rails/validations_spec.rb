@@ -74,7 +74,7 @@ RSpec.describe MeasuredValidator do
         cube.length_unit = unit
         expect(cube).to be_valid
 
-        cube.length_unit = unit.to_s
+        cube.length_unit = unit.to_sym
         expect(cube).to be_valid
 
         cube.length = UnitMeasurements::Length.new(123, unit)
