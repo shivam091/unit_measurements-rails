@@ -119,13 +119,13 @@ RSpec.describe MeasuredValidator do
       expect(cube).to be_invalid
     end
 
-    it "fails if only only the quantity is set" do
+    it "fails if only the quantity is set" do
       cube.length_unit = nil
 
       expect(cube).to be_invalid
     end
 
-    context "when unit is from specified units" do
+    context "when unit is from specified list of units" do
       it "does not raise validation" do
         cube.length_units_multiple_unit = :m
 
