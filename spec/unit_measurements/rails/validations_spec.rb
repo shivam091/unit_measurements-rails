@@ -55,6 +55,25 @@ RSpec.describe MeasuredValidator do
       expect(cube.errors.full_messages_for(:length)).to include("Length is not a valid unit")
     end
 
+    it "does not raise validation when unit is valid" do
+      length_units.each do |unit|
+        cube.length_unit = unit
+        expect(cube).to be_valid
+
+        cube.length_unit = unit.to_sym
+        expect(cube).to be_valid
+
+        cube.length = UnitMeasurements::Length.new(123, unit)
+        expect(cube).to be_valid
+      end
+    end
+
+    it "fails if only the quantity is set" do
+      cube.length_unit = nil
+
+      expect(cube).to be_invalid
+    end
+
     it "supports the message as a static string" do
       cube.length_message_unit = "invalid"
 
@@ -67,19 +86,6 @@ RSpec.describe MeasuredValidator do
 
       expect(cube).to be_invalid
       expect(cube.errors.full_messages_for(:length_message_from_block)).to include("Length message from block junk is not a valid unit")
-    end
-
-    it "accepts any valid unit" do
-      length_units.each do |unit|
-        cube.length_unit = unit
-        expect(cube).to be_valid
-
-        cube.length_unit = unit.to_sym
-        expect(cube).to be_valid
-
-        cube.length = UnitMeasurements::Length.new(123, unit)
-        expect(cube).to be_valid
-      end
     end
 
     it "accepts a list of units in any format as an option and only allows them to be valid" do
@@ -116,12 +122,6 @@ RSpec.describe MeasuredValidator do
       expect(cube).to be_invalid
 
       cube.length_unit_singular_unit = "meter"
-      expect(cube).to be_invalid
-    end
-
-    it "fails if only the quantity is set" do
-      cube.length_unit = nil
-
       expect(cube).to be_invalid
     end
 
