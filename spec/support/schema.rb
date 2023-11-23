@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 9) do
     t.string "processing_time_unit", limit: 12
   end
 
-  create_table "validated_cubes", force: :cascade do |t|
+  create_table "cube_with_validations", force: :cascade do |t|
     t.decimal "length_quantity", precision: 10, scale: 2
     t.string "length_unit", limit: 12
     t.decimal "length_true_quantity", precision: 10, scale: 2

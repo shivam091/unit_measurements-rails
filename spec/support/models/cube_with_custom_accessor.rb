@@ -7,4 +7,6 @@ class CubeWithCustomAccessor < ActiveRecord::Base
   measured_length :width, quantity_attribute_name: :width_value
 
   measured UnitMeasurements::Length, :height, quantity_attribute_name: :height_value, unit_attribute_name: :height_uom
+
+  validates :length, :width, :height, measured: true
 end

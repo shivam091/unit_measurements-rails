@@ -130,6 +130,44 @@ package.item_weight_unit       #=> "g"
 package.item_weight_value      #=> 10
 ```
 
+### Validations
+
+Validations are available:
+
+```ruby
+class CubeWithValidation < ActiveRecord::Base
+  measured_length :length
+
+  validates :length, measured: true
+```
+
+This will validate that the unit is defined on the measurement, and that there is a value.
+
+Rather than `true` the validation can accept a hash with the following options:
+
+* `message`: Override the default "is invalid" message.
+* `units`: A subset of units available for this measurement. Units must be in existing measurement.
+* `greater_than`
+* `greater_than_or_equal_to`
+* `equal_to`
+* `less_than`
+* `less_than_or_equal_to`
+
+All comparison validations require `UnitMeasurements::Measurement` values, not scalars.
+Most of these options replace the `numericality` validator which compares the
+measurement/method name/proc to the column's value. Validations can also be combined
+with `presence` validator.
+
+**Note:** Validations are strongly recommended since assigning an invalid unit
+will cause the measurement to return `nil`, even if there is a value:
+
+```ruby
+cube = CubeWithValidation.new
+cube.length_value = 1
+cube.length_unit = "invalid"
+cube.length  # nil
+```
+
 ## Contributing
 
 1. Fork it

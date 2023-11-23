@@ -2,7 +2,7 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-class ValidatedCube < ActiveRecord::Base
+class CubeWithValidation < ActiveRecord::Base
   measured_length :length
   validates :length, measured: true
 
@@ -28,7 +28,7 @@ class ValidatedCube < ActiveRecord::Base
   validates :length_numericality_inclusive, measured: {greater_than_or_equal_to: :low_bound, less_than_or_equal_to: :high_bound }
 
   measured_length :length_numericality_exclusive
-  validates :length_numericality_exclusive, measured: {greater_than: UnitMeasurements::Length.new(3, :m), less_than: UnitMeasurements::Length.new(500, :cm), message: "is super not ok"}
+  validates :length_numericality_exclusive, measured: {greater_than: UnitMeasurements::Length.new(3, :m), less_than: UnitMeasurements::Length.new(500, :cm), message: "is not ok"}
 
   measured_length :length_numericality_equality
   validates :length_numericality_equality, measured: {equal_to: Proc.new { UnitMeasurements::Length.new(100, :cm) }, message: "must be exactly 100cm"}

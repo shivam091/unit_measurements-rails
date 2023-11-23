@@ -4,11 +4,9 @@
 
 # spec/unit_measurements/rails/validations_spec.rb
 
-require "byebug"
-
-RSpec.describe MeasuredValidator do
+RSpec.describe :MeasuredValidator do
   let(:cube) do
-    ValidatedCube.new(
+    CubeWithValidation.new(
       length: UnitMeasurements::Length.new(1, "m"),
       length_true: UnitMeasurements::Length.new(2, "cm"),
       length_presence: UnitMeasurements::Length.new(6, "m"),
@@ -32,130 +30,238 @@ RSpec.describe MeasuredValidator do
 
   let(:length_units) { ["m", "meter", "cm", "mm", "millimeter", "in", "ft", "feet", "yd"] }
 
-  context "with default attribute accessors" do
-    it "does not raise validation when all attributes are valid" do
-      expect(cube).to be_valid
-    end
-
-    it "does not raise validation when attribute is present" do
-      expect(ValidatedCube.new(length_presence: UnitMeasurements::Length.new(4, :in))).to be_valid
-    end
-
-    it "raises validation when unit is nil" do
-      cube.length_unit = nil
-
-      expect(cube).to be_invalid
-      expect(cube.errors.full_messages_for(:length)).to include("Length is not a valid unit")
-    end
-
-    it "raises validation when unit is invalid" do
-      cube.length_unit = "invalid"
-
-      expect(cube).to be_invalid
-      expect(cube.errors.full_messages_for(:length)).to include("Length is not a valid unit")
-    end
-
-    it "does not raise validation when unit is valid" do
-      length_units.each do |unit|
-        cube.length_unit = unit
-        expect(cube).to be_valid
-
-        cube.length_unit = unit.to_sym
-        expect(cube).to be_valid
-
-        cube.length = UnitMeasurements::Length.new(123, unit)
+  describe "#validate_each" do
+    context "with default attribute accessors" do
+      it "does not raise validation if all attributes are valid" do
         expect(cube).to be_valid
       end
-    end
 
-    it "fails if only the quantity is set" do
-      cube.length_unit = nil
+      it "correctly handles presence validation on measured attributes" do
+        cube.length_presence = nil
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_presence]).to include("can't be blank")
 
-      expect(cube).to be_invalid
-    end
+        cube.length_presence_unit = "m"
+        expect(cube).to be_invalid
 
-    it "supports the message as a static string" do
-      cube.length_message_unit = "invalid"
+        cube.length_presence_quantity = "3"
+        expect(cube).to be_valid
+      end
 
-      expect(cube).to be_invalid
-      expect(cube.errors.full_messages_for(:length_message)).to include("Length message has a custom failure message")
-    end
+      it "does not raise validation if attribute is present" do
+        expect(CubeWithValidation.new(length_presence: UnitMeasurements::Length.new(4, :in))).to be_valid
+      end
 
-    it "overrides the message with a block" do
-      cube.length_message_from_block_unit = "junk"
+      it "raises validation if unit is nil" do
+        cube.length_unit = nil
 
-      expect(cube).to be_invalid
-      expect(cube.errors.full_messages_for(:length_message_from_block)).to include("Length message from block junk is not a valid unit")
-    end
+        expect(cube).to be_invalid
+        expect(cube.errors[:length]).to include("is not a valid unit")
+      end
 
-    it "accepts a list of units in any format as an option and only allows them to be valid" do
-      cube.length_units_multiple_unit = :m
-      expect(cube).to be_valid
+      it "raises validation if unit is invalid" do
+        cube.length_unit = "invalid"
 
-      cube.length_units_multiple_unit = :cm
-      expect(cube).to be_valid
+        expect(cube).to be_invalid
+        expect(cube.errors[:length]).to include("is not a valid unit")
+      end
 
-      cube.length_units_multiple_unit = "cm"
-      expect(cube).to be_valid
+      it "does not raise validation if unit is valid" do
+        length_units.each do |unit|
+          cube.length_unit = unit
+          expect(cube).to be_valid
 
-      cube.length_units_multiple_unit = "meter"
-      expect(cube).to be_valid
+          cube.length_unit = unit.to_sym
+          expect(cube).to be_valid
 
-      cube.length_units_multiple = UnitMeasurements::Length.new(3, :cm)
-      expect(cube).to be_valid
+          cube.length = UnitMeasurements::Length.new(123, unit)
+          expect(cube).to be_valid
+        end
+      end
 
-      cube.length_units_multiple_unit = :mm
-      expect(cube).to be_invalid
+      it "does not raise validation if unit is set in any format" do
+        cube.length_units_multiple_unit = :m
+        expect(cube).to be_valid
 
-      cube.length_units_multiple = UnitMeasurements::Length.new(3, :ft)
-      expect(cube).to be_invalid
-    end
+        cube.length_units_multiple_unit = :cm
+        expect(cube).to be_valid
 
-    it "accepts the single unit" do
-      cube.length_unit_singular_unit = :ft
-      expect(cube).to be_valid
+        cube.length_units_multiple_unit = "cm"
+        expect(cube).to be_valid
 
-      cube.length_unit_singular_unit = "feet"
-      expect(cube).to be_valid
+        cube.length_units_multiple_unit = "meter"
+        expect(cube).to be_valid
 
-      cube.length_unit_singular_unit = :mm
-      expect(cube).to be_invalid
+        cube.length_units_multiple = UnitMeasurements::Length.new(3, :cm)
+        expect(cube).to be_valid
 
-      cube.length_unit_singular_unit = "meter"
-      expect(cube).to be_invalid
-    end
+        cube.length_units_multiple_unit = :mm
+        expect(cube).to be_invalid
 
-    context "when unit is from specified list of units" do
-      it "does not raise validation" do
+        cube.length_units_multiple = UnitMeasurements::Length.new(3, :ft)
+        expect(cube).to be_invalid
+      end
+
+      it "supports validation message as a static string" do
+        cube.length_message_unit = "invalid"
+
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_message]).to include("has a custom failure message")
+      end
+
+      it "overrides validation message with a block" do
+        cube.length_message_from_block_unit = "junk"
+
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_message_from_block]).to include("junk is not a valid unit")
+      end
+
+      it "accepts the single unit using :units" do
+        cube.length_unit_singular_unit = :ft
+        expect(cube).to be_valid
+
+        cube.length_unit_singular_unit = "feet"
+        expect(cube).to be_valid
+
+        cube.length_unit_singular_unit = :mm
+        expect(cube).to be_invalid
+
+        cube.length_unit_singular_unit = "meter"
+        expect(cube).to be_invalid
+      end
+
+      it "raises validation if singular unit if not from :units" do
+        cube.length_unit_singular_unit = :mm
+
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_unit_singular]).to include("custom message")
+      end
+
+      it "raises validation if if unit is not supported by default and is not custom supported" do
+        cube.length_unit_singular_unit = :t
+
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_unit_singular]).to include("custom message")
+      end
+
+      it "does not raise validation if unit is from :units" do
         cube.length_units_multiple_unit = :m
 
         expect(cube).to be_valid
-        expect(cube.errors.full_messages_for(:length_units_multiple)).to be_empty
+        expect(cube.errors[:length_units_multiple]).to be_empty
       end
-    end
 
-    context "when unit is not from specified units" do
-      it "raises validation" do
+      it "raises validation if unit is not from :units" do
         cube.length_units_multiple_unit = :mm
 
         expect(cube).to be_invalid
-        expect(cube.errors.full_messages_for(:length_units_multiple)).to include("Length units multiple is not a valid unit")
+        expect(cube.errors[:length_units_multiple]).to include("is not a valid unit")
+      end
+
+      it "checks numericality comparisons against Measurement subclass" do
+        cube.length_invalid_comparison = UnitMeasurements::Length.new(30, "in")
+
+        expect {
+          cube.valid?
+        }.to raise_error(ArgumentError, ":not_a_measured_subclass must be a number or a Measurement object")
+      end
+
+      it "checks numericality comparisons :greater_than" do
+        cube.length_numericality_exclusive = UnitMeasurements::Length.new(4, "m")
+
+        expect(cube).to be_valid
+      end
+
+      it "checks numericality comparisons :less_than" do
+        cube.length_numericality_exclusive = UnitMeasurements::Length.new(1, "m")
+
+        expect(cube).to be_invalid
+      end
+
+      it "checks numericality comparisons :greater_than_or_equal_to" do
+        cube.length_numericality_inclusive = UnitMeasurements::Length.new(10, "in")
+
+        expect(cube).to be_valid
+      end
+
+      it "checks numericality comparisons :less_than_or_equal_to" do
+        cube.length_numericality_exclusive = UnitMeasurements::Length.new(3, "m")
+
+        expect(cube).to be_invalid
+      end
+
+      it "checks numericality comparisons :equal_to and can use procs to look up values" do
+        cube.length_numericality_equality = UnitMeasurements::Length.new(100, "cm")
+        expect(cube).to be_valid
+
+        cube.length_numericality_equality = UnitMeasurements::Length.new(1, "m")
+        expect(cube).to be_valid
+
+        cube.length_numericality_equality = UnitMeasurements::Length.new("99.9", "cm")
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_equality]).to include("must be exactly 100cm")
+
+        cube.length_numericality_equality = UnitMeasurements::Length.new(101, "cm")
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_equality]).to include("must be exactly 100cm")
+      end
+
+      it "uses a default invalid validation message for numericality comparisons" do
+        cube.length_numericality_inclusive = UnitMeasurements::Length.new(30, :in)
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_inclusive]).to include("30.0 in must be less than or equal to 20 in")
+
+        cube.length_numericality_inclusive = UnitMeasurements::Length.new(1, :mm)
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_inclusive]).to include("1.0 mm must be greater than or equal to 10 in")
+      end
+
+      it "uses a custom validation message for numericality comparisons" do
+        cube.length_numericality_exclusive = UnitMeasurements::Length.new(2, :m)
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_exclusive]).to include("is not ok")
+
+        cube.length_numericality_exclusive = UnitMeasurements::Length.new(6000, :mm)
+        expect(cube).to be_invalid
+        expect(cube.errors[:length_numericality_exclusive]).to include("is not ok")
+      end
+
+      it "does not raise validation if valid unit is set but no quantity" do
+        cube.length_numericality_exclusive_quantity = nil
+        cube.length_numericality_exclusive_unit = "cm"
+
+        expect(cube).to be_valid
+      end
+
+      it "raises validation if quantity is set but no unit" do
+        cube.length_numericality_exclusive_quantity = 1
+        cube.length_numericality_exclusive_unit = nil
+
+        expect(cube).to be_invalid
       end
     end
-  end
 
-  context "with custom attribute accessors" do
-    # it "raises validation with custom unit with nil value" do
-    #   cube_with_custom_accessors.length_uom = ""
-    #   expect(cube_with_custom_accessors.valid?).to be_falsy
-    #
-    #   expected_errors_hash = {
-    #     length: ["is not a valid unit"],
-    #     width:  ["is not a valid unit"],
-    #     height: ["is not a valid unit"],
-    #   }
-    #
-    #   expect(cube_with_custom_accessors.errors.to_hash).to eq(expected_errors_hash)
-    # end
+    context "with custom attribute accessors" do
+      it "does not raise validation if all attributes are valid" do
+        expect(cube_with_custom_accessors).to be_valid
+      end
+
+      it "raises validation if valid quantity and no unit" do
+        cube_with_custom_accessors.length_uom = ""
+
+        expected_errors_hash = {
+          length: ["is not a valid unit"],
+        }
+
+        expect(cube_with_custom_accessors).to be_invalid
+        expect(cube_with_custom_accessors.errors.to_hash).to eq(expected_errors_hash)
+      end
+
+      it "does not raise validation if valid unit and no quantity" do
+        cube_with_custom_accessors.length_quantity = nil
+
+        expect(cube_with_custom_accessors).to be_valid
+      end
+    end
   end
 end
