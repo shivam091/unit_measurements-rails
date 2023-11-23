@@ -114,9 +114,17 @@ class CubeWithValidation < ActiveRecord::Base
 end
 ```
 
-These validations ensure that the unit is defined on the measurement and that a value exists.
-Additionally, validations accept various options such as `message`, `units`, and comparison operators like `greater_than`, `less_than`, etc.
+These validations ensure that the unit is defined on the measurement and that a quantity exists.
+Additionally, validations accept various options such as `message`, `units`, and comparison
+operators like `greater_than`, `less_than`, etc.
 
+All comparison validations require `UnitMeasurements::Measurement` values, not scalars.
+Most of these options replace the `numericality` validator which compares the
+measurement/method name/proc to the column's value. Validations can also be combined
+with `presence` validator.
+
+**Note:** Validations are strongly recommended since assigning an invalid unit
+will cause the measurement to return `nil`, even if there is a quantity:
 
 ## Contributing
 
