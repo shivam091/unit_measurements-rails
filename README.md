@@ -13,17 +13,20 @@ A Rails adaptor that encapsulate measurements and their units in Ruby on Rails.
 
 ## Introduction
 
-This gem is the Rails integration for the [unit_measurements](https://github.com/shivam091/unit_measurements) gem.
-It provides ActiveRecord adapter for persisting and retrieving measurements with their units.
+This gem is designed as a Rails integration for the [unit_measurements](https://github.com/shivam091/unit_measurements) gem.
+It provides an `ActiveRecord` adapter for persisting and retrieving measurements
+along with their units, simplifying complex measurement handling within your
+Rails applications.
+
 
 ## Minimum Requirements
 
-* Ruby 3.2+ (https://www.ruby-lang.org/en/downloads/branches/)
-* Rails 7.0.0+ (https://rubygems.org/gems/rails/versions)
+* Ruby 3.2+ ([Download Ruby](https://www.ruby-lang.org/en/downloads/branches/))
+* Rails 7.0.0+ ([RubyGems - Rails Versions](https://rubygems.org/gems/rails/versions))
 
 ## Installation
 
-If using bundler, first add this line to your application's Gemfile:
+To use `unit_measurements-rails` in your Rails application, add the following line to your Gemfile:
 
 ```ruby
 gem "unit_measurements-rails"
@@ -39,31 +42,25 @@ Or otherwise simply install it yourself as:
 
 ## Usage
 
-### ActiveRecord
+### ActiveRecord integration
 
-Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
-`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
-
-Customizing the accessors used to hold quantity and unit is supported, see below
-for details.
+This gem provides an ActiveRecord integration allowing you to declare measurement attributes with their corresponding units in your database schema:
 
 ```ruby
-class CreateTableCubes < ActiveRecord::Migration[7.0]
+class CreateCubes < ActiveRecord::Migration[7.0]
   def change
     create_table :cubes do |t|
+      # Define the columns for measurements
       t.decimal :length_quantity, precision: 10, scale: 2
       t.string :length_unit, limit: 12
-      t.decimal :width_quantity, precision: 10, scale: 2
-      t.string :width_unit, limit: 12
-      t.decimal :height_quantity, precision: 10, scale: 2
-      t.string :height_unit, limit: 12
+      # ... additional columns for other measured attributes ...
       t.timestamps
     end
   end
 end
 ```
 
-A column can be declared as a measured with its unit group class:
+Next, declare a column as measured with its associated unit group class:
 
 ```ruby
 class Cube < ActiveRecord::Base
@@ -71,7 +68,7 @@ class Cube < ActiveRecord::Base
 end
 ```
 
-This will allow you to access and assign a measured attribute:
+This setup allows you to access and assign measured attributes conveniently:
 
 ```ruby
 cube = Cube.new
@@ -81,26 +78,10 @@ cube.height_unit       #=> "ft"
 cube.height            #=> 5.0 ft
 ```
 
-Order of assignment does not matter, and each attribute can be assigned separately
-and with mass assignment:
+Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
+`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
 
-```ruby
-params = {height_quantity: "3", height_unit: "ft"}
-cube = Cube.new(params)
-cube.height            #=> 3.0 ft
-```
-
-You can specify multiple measured attributes at a time:
-
-```ruby
-class Land < ActiveRecord::Base
-  measured UnitMeasurements::Area, :carpet_area, :buildup_area
-end
-```
-
-You can optionally customize the model's quantity and unit accessors by specifying
-them in the `quantity_attribute_name` and `unit_attribute_name` option, respectively,
-as follows:
+You can customize the model's quantity and unit accessors by specifying them in the `quantity_attribute_name` and `unit_attribute_name` options, respectively.
 
 ```ruby
 class CubeWithCustomAccessor < ActiveRecord::Base
@@ -110,7 +91,7 @@ class CubeWithCustomAccessor < ActiveRecord::Base
 end
 ```
 
-There are some simpler methods for predefined types:
+For a more streamlined approach, predefined methods are available for commonly used types like `length`, `weight`, `area`, `volume`, etc.:
 
 ```ruby
 class Package < ActiveRecord::Base
@@ -121,60 +102,31 @@ class Package < ActiveRecord::Base
 end
 ```
 
-This will allow you to access and assign a measurement object:
-
-```ruby
-package = Package.new
-package.item_weight = UnitMeasurements::Weight.new(10, "g")
-package.item_weight_unit       #=> "g"
-package.item_weight_value      #=> 10
-```
-
 ### Validations
 
-Validations are available:
+`unit_measurements-rails` also provides validations to ensure the correctness of measurement attributes:
 
 ```ruby
 class CubeWithValidation < ActiveRecord::Base
   measured_length :length
 
   validates :length, measured: true
+end
 ```
 
-This will validate that the unit is defined on the measurement, and that there is a value.
+These validations ensure that the unit is defined on the measurement and that a value exists.
+Additionally, validations accept various options such as `message`, `units`, and comparison operators like `greater_than`, `less_than`, etc.
 
-Rather than `true` the validation can accept a hash with the following options:
-
-* `message`: Override the default "is invalid" message.
-* `units`: A subset of units available for this measurement. Units must be in existing measurement.
-* `greater_than`
-* `greater_than_or_equal_to`
-* `equal_to`
-* `less_than`
-* `less_than_or_equal_to`
-
-All comparison validations require `UnitMeasurements::Measurement` values, not scalars.
-Most of these options replace the `numericality` validator which compares the
-measurement/method name/proc to the column's value. Validations can also be combined
-with `presence` validator.
-
-**Note:** Validations are strongly recommended since assigning an invalid unit
-will cause the measurement to return `nil`, even if there is a value:
-
-```ruby
-cube = CubeWithValidation.new
-cube.length_value = 1
-cube.length_unit = "invalid"
-cube.length  # nil
-```
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am "Add some feature"`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Contributions to this project are welcomed! To contribute:
+
+1. Fork this repository
+2. Create a new branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am "Add some feature`")
+4. Push the changes to your branch (`git push origin my-new-feature`)
+5. Create a new **Pull Request**
 
 ## License
 
