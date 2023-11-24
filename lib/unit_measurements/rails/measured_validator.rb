@@ -13,7 +13,7 @@
 #     measured_length :length
 #     validates :length, measured: true
 #
-#     # ... configuration and validations of other measured attributes  ...
+#     # ... configuration and validations of other measurement attributes  ...
 #   end
 #
 # @note
