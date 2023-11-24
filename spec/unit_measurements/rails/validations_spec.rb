@@ -163,7 +163,7 @@ RSpec.describe :MeasuredValidator do
 
         expect {
           cube.valid?
-        }.to raise_error(ArgumentError, ":not_a_measured_subclass must be a number or a Measurement object")
+        }.to raise_error(ArgumentError, ":not_a_measured_subclass must be either Numeric or Measurement")
       end
 
       it "checks numericality comparisons :greater_than" do

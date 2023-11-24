@@ -2,10 +2,10 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-# +MeasuredValidator+ validates measured attributes associated with a model.
+# +MeasuredValidator+ validates measurement attributes associated with a model.
 #
-# This validator checks measured attributes using configured +options+ and
-# ensures that the they adhere to certain criteria, such as units, quantities,
+# This validator checks measurement attributes using configured +options+ and
+# ensures that the they adhere to certain criteria, such as quantities, units,
 # and comparisons against specified values.
 #
 # @example
@@ -23,20 +23,20 @@
 # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
 # @since 2.0.0
 class MeasuredValidator < ActiveModel::EachValidator
-  # Validates each measured +attribute+ of the +record+.
+  # Validates each measurement +attribute+ of the +record+.
   #
   # @example
   #   cube = CubeWithValidation.new
   #   cube.length = 10
-  #   cube.valid? # => true
+  #   cube.valid?       # => true
   #
   # @param [ActiveRecord::Base] record The record to be validated.
-  # @param [Symbol] attribute The name of the measured attribute being validated.
+  # @param [Symbol] attribute The name of the measurement attribute being validated.
   # @param [UnitMeasurements::Measurement] measurement
   #   The measurement value to be validated.
   #
-  # @note This method performs validation based on the configured
-  #   attributes and options for the measurement attribute.
+  # @note This method performs validation on the configured measurement
+  #   attributes and their options.
   #
   # @raise [ArgumentError] If the value is neither a +Numeric+ nor a +Measurement+.
   #
@@ -58,11 +58,12 @@ class MeasuredValidator < ActiveModel::EachValidator
 
     return unless measurement_unit && measurement_quantity.present?
 
-    validate_check_options(record, attribute, measurement)
+    validate_comparison_options(record, attribute, measurement)
   end
 
   private
 
+  # @private
   # Define the set of comparison operators used for measurement checks.
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
@@ -75,7 +76,8 @@ class MeasuredValidator < ActiveModel::EachValidator
     less_than_or_equal_to: :<=,
   }.freeze
 
-  # Check if either +measurement_quantity+ or +measurement_unit+ is present.
+  # @private
+  # Checks if either +measurement_quantity+ or +measurement_unit+ is present.
   #
   # @param [Numeric] measurement_quantity The quantity of the measurement.
   # @param [UnitMeasurements::Unit] measurement_unit The unit of measurement.
@@ -89,10 +91,11 @@ class MeasuredValidator < ActiveModel::EachValidator
     false
   end
 
-  # Validate the presence of +measurement_unit+.
+  # @private
+  # Validates the presence of +measurement_unit+.
   #
   # @param [ActiveRecord::Base] record The record being validated.
-  # @param [Symbol] attribute The attribute being validated.
+  # @param [Symbol] attribute The measurement attribute being validated.
   # @param [UnitMeasurements::Unit] measurement_unit The unit of measurement.
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
@@ -103,12 +106,13 @@ class MeasuredValidator < ActiveModel::EachValidator
     record.errors.add(attribute, message(record, "is not a valid unit"))
   end
 
-  # Validate the presence and validity of specified measurement units.
+  # @private
+  # Validates the +measurement_unit+ against specified measurement units.
   #
   # @param [ActiveRecord::Base] record The record being validated.
-  # @param [Symbol] attribute The attribute being validated.
+  # @param [Symbol] attribute The measurement attribute being validated.
   # @param [UnitMeasurements::UnitGroup] unit_group
-  #   The unit group for the measured attribute.
+  #   The unit group for the measurement attribute.
   # @param [UnitMeasurements::Unit] measurement_unit The unit of the measurement.
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
@@ -123,15 +127,16 @@ class MeasuredValidator < ActiveModel::EachValidator
     record.errors.add(attribute, message(record, "is not a valid unit"))
   end
 
-  # Validate measured +attribute+ based on specified check +options+.
+  # @private
+  # Validates measurement +attribute+ based on specified comparison +options+.
   #
   # @param [ActiveRecord::Base] record The record being validated.
   # @param [Symbol] attribute The attribute being validated.
-  # @param [UnitMeasurements::Measurement] measurement The measurement value.
+  # @param [UnitMeasurements::Measurement] measurement The value of attribute.
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 2.0.0
-  def validate_check_options(record, attribute, measurement)
+  def validate_comparison_options(record, attribute, measurement)
     options.slice(*OPERATORS.keys).each do |option, value|
       comparable_value = value_for(record, value)
       next if measurement.public_send(OPERATORS[option], comparable_value)
@@ -140,7 +145,8 @@ class MeasuredValidator < ActiveModel::EachValidator
     end
   end
 
-  # Generate a validation message for the record.
+  # @private
+  # Generates a validation message for the record.
   #
   # @param [ActiveRecord::Base] record The record being validated.
   # @param [String] default_message The default error message.
@@ -152,7 +158,8 @@ class MeasuredValidator < ActiveModel::EachValidator
     options[:message].respond_to?(:call) ? options[:message].call(record) : (options[:message] || default_message)
   end
 
-  # Obtain a value for measurement comparison.
+  # @private
+  # Obtains a value for measurement comparison.
   #
   # @param [ActiveRecord::Base] record The record being validated.
   # @param [Object] key The key to retrieve the value for comparison.
@@ -168,7 +175,7 @@ class MeasuredValidator < ActiveModel::EachValidator
     when Symbol then record.send(key)
     else             key
     end.tap do |value|
-      raise ArgumentError, ":#{value} must be a number or a Measurement object" unless value.is_a?(Numeric) || value.is_a?(UnitMeasurements::Measurement)
+      raise ArgumentError, ":#{value} must be either Numeric or Measurement" unless value.is_a?(Numeric) || value.is_a?(UnitMeasurements::Measurement)
     end
   end
 end
