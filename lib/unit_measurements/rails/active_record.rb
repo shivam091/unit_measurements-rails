@@ -15,22 +15,22 @@ module UnitMeasurements
   module Rails
     # The +UnitMeasurements::Rails::ActiveRecord+ module enhances ActiveRecord
     # models by providing a convenient way to handle unit measurements. It
-    # facilitates defining measurable attributes in models with specific unit
+    # facilitates defining measurement attributes in models with specific unit
     # group support.
     #
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.0.0
     module ActiveRecord
       # @!scope class
-      # Defines a _reader_ and _writer_ methods for the measured attributes in
+      # Defines a _reader_ and _writer_ methods for the measurement attributes in
       # the +ActiveRecord+ model.
       #
-      # @example Defining single measured attribute:
+      # @example Defining single measurement attribute:
       #   class Cube < ActiveRecord::Base
       #     measured UnitMeasurements::Length, :height
       #   end
       #
-      # @example Defining multiple measured attributes:
+      # @example Defining multiple measurement attributes:
       #   class Package < ActiveRecord::Base
       #     measured UnitMeasurements::Weight, :item_weight, :total_weight
       #   end
@@ -38,7 +38,7 @@ module UnitMeasurements
       # @param [Class|String] unit_group
       #   The unit group class or its name as a string.
       # @param [Array<String|Symbol>] measured_attrs
-      #   An array of the names of measured attributes.
+      #   An array of the names of measurement attributes.
       # @param [Hash] options A customizable set of options
       # @option options [String|Symbol] :quantity_attribute_name The name of the quantity attribute.
       # @option options [String|Symbol] :unit_attribute_name The name of the unit attribute.
@@ -46,7 +46,8 @@ module UnitMeasurements
       # @return [void]
       #
       # @raise [BaseError]
-      #   If +unit_group+ is not a subclass of +UnitMeasurements::Measurement+.
+      #   If +unit_group+ is not a subclass of +UnitMeasurements::Measurement+ or
+      #   the attribute has already been measured.
       #
       # @see BaseError
       # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
@@ -60,7 +61,7 @@ module UnitMeasurements
         options[:unit_group] = unit_group
 
         measured_attrs.map(&:to_s).each do |measured_attr|
-          raise BaseError, "The field '#{measured_attr}' has already been measured." if measured_attributes.key?(measured_attr)
+          raise BaseError, "The attribute '#{measured_attr}' has already been measured." if measured_attributes.key?(measured_attr)
 
           quantity_attr = options[:quantity_attribute_name]&.to_s || "#{measured_attr}_quantity"
           unit_attr = options[:unit_attribute_name]&.to_s || "#{measured_attr}_unit"
@@ -75,12 +76,13 @@ module UnitMeasurements
       end
 
       # @!scope class
-      # Returns a hash containing information about the measured attributes and
-      # their options.
+      # Returns a hash containing information about the measurement attributes
+      # and their options.
       #
       # @return [Hash{String => Hash{Symbol => String|Class}}]
-      #   A hash where keys represent the names of the measured attributes, and
-      #   values are hashes containing the options for each measured attribute.
+      #   A hash where keys represent the names of the measurement attributes,
+      #   and values are hashes containing the options for each measurement
+      #   attribute.
       #
       # @example
       #   {
@@ -111,7 +113,7 @@ module UnitMeasurements
       # @param [Class] unit_group The unit group class to be validated.
       #
       # @raise [BaseError]
-      #   if +unit_group+ is not a subclass of +UnitMeasurements::Measurement+.
+      #   if unit group is not a subclass of UnitMeasurements::Measurement.
       #
       # @return [void]
       #
@@ -125,9 +127,9 @@ module UnitMeasurements
 
       # @!scope class
       # @private
-      # Defines the method to read the measured attribute.
+      # Defines the method to _read_ the measurement attribute.
       #
-      # @param [String] measured_attr The name of the measured attribute.
+      # @param [String] measured_attr The name of the measurement attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
@@ -150,9 +152,9 @@ module UnitMeasurements
 
       # @!scope class
       # @private
-      # Defines the method to write the measured attribute.
+      # Defines the method to _write_ the measurement attribute.
       #
-      # @param [String] measured_attr The name of the measured attribute.
+      # @param [String] measured_attr The name of the measurement attribute.
       # @param [String] quantity_attr The name of the quantity attribute.
       # @param [String] unit_attr The name of the unit attribute.
       # @param [Class] unit_group The unit group class for the measurement.
@@ -175,7 +177,7 @@ module UnitMeasurements
 
       # @!scope class
       # @private
-      # Redefines the writer method to set the quantity attribute.
+      # Redefines the _writer_ method to set the quantity attribute.
       #
       # @param quantity_attr [String] The name of the quantity attribute.
       #
@@ -199,7 +201,7 @@ module UnitMeasurements
 
       # @!scope class
       # @private
-      # Redefines the writer method to set the unit attribute.
+      # Redefines the _writer_ method to set the unit attribute.
       #
       # @param unit_attr [String] The name of the unit attribute.
       # @param unit_group [Class] The unit group class for the measurement.

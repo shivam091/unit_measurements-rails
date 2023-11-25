@@ -13,17 +13,18 @@ A Rails adaptor that encapsulate measurements and their units in Ruby on Rails.
 
 ## Introduction
 
-This gem is the Rails integration for the [unit_measurements](https://github.com/shivam091/unit_measurements) gem.
-It provides ActiveRecord adapter for persisting and retrieving measurements with their units.
+This gem is designed as a Rails integration for the [unit_measurements](https://github.com/shivam091/unit_measurements) gem.
+It provides an `ActiveRecord` adapter for persisting and retrieving measurements along with their units, simplifying complex
+measurement handling within your Rails applications.
 
 ## Minimum Requirements
 
-* Ruby 3.2+ (https://www.ruby-lang.org/en/downloads/branches/)
-* Rails 7.0.0+ (https://rubygems.org/gems/rails/versions)
+* Ruby 3.2+ ([Download Ruby](https://www.ruby-lang.org/en/downloads/branches/))
+* Rails 7.0.0+ ([RubyGems - Rails Versions](https://rubygems.org/gems/rails/versions))
 
 ## Installation
 
-If using bundler, first add this line to your application's Gemfile:
+To use `unit_measurements-rails` in your Rails application, add the following line to your Gemfile:
 
 ```ruby
 gem "unit_measurements-rails"
@@ -41,102 +42,82 @@ Or otherwise simply install it yourself as:
 
 ### ActiveRecord
 
-Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
-`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
-
-Customizing the accessors used to hold quantity and unit is supported, see below
-for details.
+This gem provides an ActiveRecord integration allowing you to declare measurement attributes with their
+corresponding units in your database schema:
 
 ```ruby
-class CreateTableCubes < ActiveRecord::Migration[7.0]
+class CreateCubes < ActiveRecord::Migration[7.0]
   def change
     create_table :cubes do |t|
       t.decimal :length_quantity, precision: 10, scale: 2
       t.string :length_unit, limit: 12
-      t.decimal :width_quantity, precision: 10, scale: 2
-      t.string :width_unit, limit: 12
-      t.decimal :height_quantity, precision: 10, scale: 2
-      t.string :height_unit, limit: 12
       t.timestamps
     end
   end
 end
 ```
 
-A column can be declared as a measured with its unit group class:
+Next, declare an atribute as measurement using `measured` with its associated unit
+group class:
 
 ```ruby
 class Cube < ActiveRecord::Base
-  measured UnitMeasurements::Length, :height
+  measured UnitMeasurements::Length, :length
 end
 ```
 
-This will allow you to access and assign a measured attribute:
+This setup allows you to access and assign measurement attributes conveniently:
 
 ```ruby
 cube = Cube.new
-cube.height = UnitMeasurements::Length.new(5, "ft")
-cube.height_quantity   #=> 0.5e1
-cube.height_unit       #=> "ft"
-cube.height            #=> 5.0 ft
+cube.length = UnitMeasurements::Length.new(5, "ft")
+cube.length_quantity   #=> 0.5e1
+cube.length_unit       #=> "ft"
+cube.length            #=> 5.0 ft
 ```
 
-Order of assignment does not matter, and each attribute can be assigned separately
-and with mass assignment:
+You can specify multiple measurement attributes simultaneously:
 
 ```ruby
-params = {height_quantity: "3", height_unit: "ft"}
-cube = Cube.new(params)
-cube.height            #=> 3.0 ft
-```
-
-You can specify multiple measured attributes at a time:
-
-```ruby
-class Land < ActiveRecord::Base
-  measured UnitMeasurements::Area, :carpet_area, :buildup_area
+class Cube < ActiveRecord::Base
+  measured UnitMeasurements::Length, :length, :width
 end
 ```
 
-You can optionally customize the model's quantity and unit accessors by specifying
-them in the `quantity_attribute_name` and `unit_attribute_name` option, respectively,
-as follows:
+Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
+`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
+
+You can customize the model's quantity and unit accessors by specifying them in the
+`quantity_attribute_name` and `unit_attribute_name` options, respectively.
 
 ```ruby
 class CubeWithCustomAccessor < ActiveRecord::Base
   measured_length :length, unit_attribute_name: :length_uom
   measured_length :width, quantity_attribute_name: :width_value
-  measured_length :height, quantity_attribute_name: :height_value, unit_attribute_name: :height_uom
 end
 ```
 
-There are some simpler methods for predefined types:
+For a more streamlined approach, predefined methods are available for commonly used
+types like `length`, `weight`, `area`, `volume`, etc.:
 
 ```ruby
 class Package < ActiveRecord::Base
   measured_length :size
-  measured_weight :item_weight, :package_weight
   measured_area :carpet_area
   measured_volume :total_volume
+  measured_weight :item_weight, :package_weight
 end
-```
-
-This will allow you to access and assign a measurement object:
-
-```ruby
-package = Package.new
-package.item_weight = UnitMeasurements::Weight.new(10, "g")
-package.item_weight_unit       #=> "g"
-package.item_weight_value      #=> 10
 ```
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
+Contributions to this project are welcomed! To contribute:
+
+1. Fork this repository
+2. Create a new branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am "Add some feature"`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+4. Push the changes to your branch (`git push origin my-new-feature`)
+5. Create new **Pull Request**
 
 ## License
 
