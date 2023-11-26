@@ -33,6 +33,7 @@ module UnitMeasurements
   end
 end
 
+require "unit_measurements/rails/helpers"
 require "unit_measurements/rails/active_record"
 
 require "unit_measurements/rails/railtie" if defined?(Rails)
