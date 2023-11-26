@@ -140,6 +140,8 @@ module UnitMeasurements
       # @since 1.0.0
       def define_reader_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
         define_method(measured_attr) do
+          column_exists?(quantity_attr) && column_exists?(unit_attr)
+
           quantity, unit = public_send(quantity_attr), public_send(unit_attr)
 
           begin
@@ -165,6 +167,8 @@ module UnitMeasurements
       # @since 1.0.0
       def define_writer_for_measured_attr(measured_attr, quantity_attr, unit_attr, unit_group)
         define_method("#{measured_attr}=") do |measurement|
+          column_exists?(quantity_attr) && column_exists?(unit_attr)
+
           if measurement.is_a?(unit_group)
             public_send("#{quantity_attr}=", measurement.quantity)
             public_send("#{unit_attr}=", measurement.unit.name)
@@ -187,6 +191,8 @@ module UnitMeasurements
       # @since 1.0.0
       def redefine_quantity_writer(quantity_attr)
         redefine_method("#{quantity_attr}=") do |quantity|
+          column_exists?(quantity_attr)
+
           quantity = BigDecimal(quantity, Float::DIG) if quantity.is_a?(String)
           if quantity
             db_column_props = self.column_for_attribute(quantity_attr)
@@ -212,6 +218,8 @@ module UnitMeasurements
       # @since 1.0.0
       def redefine_unit_writer(unit_attr, unit_group)
         redefine_method("#{unit_attr}=") do |unit|
+          column_exists?(unit_attr)
+
           unit_name = unit_group.unit_for(unit).try!(:name)
           write_attribute(unit_attr, (unit_name || unit))
         end

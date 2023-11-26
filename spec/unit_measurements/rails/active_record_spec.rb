@@ -368,6 +368,16 @@ RSpec.describe UnitMeasurements::Rails::ActiveRecord do
         expect(cube_with_custom_accessors.height).to eq(UnitMeasurements::Length.new(10, "cm"))
       end
     end
+
+    context "when *_quantity and/or *_unit accessors for measurement attribute does not exist" do
+      it "raises ArgumentError" do
+        allow(Cube).to receive(:column_names).and_return(["height_unit"])
+
+        expect {
+          cube.height = UnitMeasurements::Length.new(1, "m")
+        }.to raise_error(ArgumentError, "Column 'height_quantity' does not exist in the database for table 'cubes'.")
+      end
+    end
   end
 
   describe ".measured_attributes" do
