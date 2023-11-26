@@ -1,3 +1,11 @@
+## [1.5.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.4.0...v1.5.0) - 2023-11-27
+
+### What's new
+
+- Raise error when columns for measurement attribute don't exist in DB.
+
+-----------
+
 ## [1.4.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.3.0...v1.4.0) - 2023-11-25
 
 ### What's updated
