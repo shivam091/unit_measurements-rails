@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "simplecov", "~> 0.21", ">= 0.21.2"
   spec.add_development_dependency "byebug", "~> 11"
-  spec.add_development_dependency "sqlite3", "~> 1.6"
+  spec.add_development_dependency "sqlite3", "~> 1.6.9"
 
   spec.required_ruby_version = ">= 3.2"
 end

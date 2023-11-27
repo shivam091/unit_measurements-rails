@@ -10,7 +10,6 @@ module UnitMeasurements
     # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
     # @since 1.5.0
     module Helpers
-      # @private
       # Checks the existence of a +column_name+ within the database table
       # associated with the +ActiveRecord+ model.
       #
