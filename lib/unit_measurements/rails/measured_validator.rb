@@ -124,7 +124,7 @@ class MeasuredValidator < ActiveModel::EachValidator
 
     return if valid_units.include?(measurement_unit)
 
-    record.errors.add(attribute, message(record, "is not a valid unit"))
+    record.errors.add(attribute, message(record, "is not included within list"))
   end
 
   # @private

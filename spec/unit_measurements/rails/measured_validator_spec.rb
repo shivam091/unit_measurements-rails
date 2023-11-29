@@ -155,7 +155,7 @@ RSpec.describe MeasuredValidator do
         cube.length_units_multiple_unit = :mm
 
         expect(cube).to be_invalid
-        expect(cube.errors[:length_units_multiple]).to include("is not a valid unit")
+        expect(cube.errors[:length_units_multiple]).to include("is not included within list")
       end
 
       it "checks numericality comparisons against Measurement subclass" do
