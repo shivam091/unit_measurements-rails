@@ -2,9 +2,9 @@
 # -*- frozen_string_literal: true -*-
 # -*- warn_indent: true -*-
 
-# spec/unit_measurements/rails/validations_spec.rb
+# spec/unit_measurements/rails/measured_validator_spec.rb
 
-RSpec.describe :MeasuredValidator do
+RSpec.describe MeasuredValidator do
   let(:cube) do
     CubeWithValidation.new(
       length: UnitMeasurements::Length.new(1, "m"),
@@ -56,14 +56,14 @@ RSpec.describe :MeasuredValidator do
         cube.length_unit = nil
 
         expect(cube).to be_invalid
-        expect(cube.errors[:length]).to include("is not a valid unit")
+        expect(cube.errors[:length]).to include("does not have valid unit")
       end
 
       it "raises validation if unit is invalid" do
         cube.length_unit = "invalid"
 
         expect(cube).to be_invalid
-        expect(cube.errors[:length]).to include("is not a valid unit")
+        expect(cube.errors[:length]).to include("does not have valid unit")
       end
 
       it "does not raise validation if unit is valid" do
@@ -250,7 +250,7 @@ RSpec.describe :MeasuredValidator do
         cube_with_custom_accessors.length_uom = ""
 
         expected_errors_hash = {
-          length: ["is not a valid unit"],
+          length: ["does not have valid unit"],
         }
 
         expect(cube_with_custom_accessors).to be_invalid

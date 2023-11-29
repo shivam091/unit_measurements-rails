@@ -53,8 +53,8 @@ class MeasuredValidator < ActiveModel::EachValidator
 
     return unless quantity_or_unit_present?(measurement_quantity, measurement_unit)
 
-    validate_unit(record, attribute, measurement_unit)
-    validate_units(record, attribute, unit_group, measurement_unit)
+    validate_presence_of_unit(record, attribute, measurement_unit)
+    validate_unit_inclusion(record, attribute, unit_group, measurement_unit)
 
     return unless measurement_unit && measurement_quantity.present?
 
@@ -100,10 +100,10 @@ class MeasuredValidator < ActiveModel::EachValidator
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 2.0.0
-  def validate_unit(record, attribute, measurement_unit)
+  def validate_presence_of_unit(record, attribute, measurement_unit)
     return if measurement_unit
 
-    record.errors.add(attribute, message(record, "is not a valid unit"))
+    record.errors.add(attribute, message(record, "does not have valid unit"))
   end
 
   # @private
@@ -117,7 +117,7 @@ class MeasuredValidator < ActiveModel::EachValidator
   #
   # @author {Harshal V. Ladhe}[https://shivam091.github.io/]
   # @since 2.0.0
-  def validate_units(record, attribute, unit_group, measurement_unit)
+  def validate_unit_inclusion(record, attribute, unit_group, measurement_unit)
     return unless options[:units].present?
 
     valid_units = Array(options[:units]).map { |unit| unit_group.unit_for(unit) }.compact
