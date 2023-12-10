@@ -68,7 +68,7 @@
 
 <h2 id="label-Introduction">Introduction</h2>
 
-<p>This gem is designed as a Rails integration for the <a href="https://github.com/shivam091/unit_measurements">unit_measurements</a> gem. It provides an <code>ActiveRecord</code> adapter for persisting and retrieving measurements along with their units, simplifying complex measurement handling within your Rails applications.</p>
+<p>This gem is designed as a Rails integration for the <a href="https://github.com/shivam091/unit_measurements">unit_measurements</a> gem. It provides an <code>ActiveRecord</code> adapter for persisting and retrieving measurement quantity along with its unit, simplifying complex measurement handling within your Rails applications.</p>
 
 <h2 id="label-Minimum+Requirements">Minimum Requirements</h2>
 <ul><li>
@@ -96,7 +96,7 @@
 
 <h3 id="label-ActiveRecord">ActiveRecord</h3>
 
-<p>This gem provides an ActiveRecord integration allowing you to declare measurement attributes with their corresponding units in your database schema:</p>
+<p>This gem provides an ActiveRecord integration allowing you to declare measurement attributes along with their corresponding units in your database schema:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>CreateCubes</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Migration</span><span class='lbracket'>[</span><span class='float'>7.0</span><span class='rbracket'>]</span>
   <span class='kw'>def</span> <span class='id identifier rubyid_change'>change</span>
@@ -125,6 +125,8 @@
 </span><span class='id identifier rubyid_cube'>cube</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>            <span class='comment'>#=&gt; 5.0 ft
 </span></code></pre>
 
+<p>Attribute accessor names are expected to have the <code>_quantity</code> and <code>_unit</code> suffix, and be <code>DECIMAL</code> and <code>VARCHAR</code> types, respectively, and defaults values are accepted.</p>
+
 <p>You can specify multiple measurement attributes simultaneously:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Cube</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
@@ -132,23 +134,68 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>Attribute names are expected to have the <code>_quantity</code> and <code>_unit</code> suffix, and be <code>DECIMAL</code> and <code>VARCHAR</code> types, respectively, and defaults values are accepted.</p>
-
-<p>You can customize the model’s quantity and unit accessors by specifying them in the <code>quantity_attribute_name</code> and <code>unit_attribute_name</code> options, respectively.</p>
+<p>You can customize the quantity and unit accessors of the measurement attribute by specifying them in the <code>quantity_attribute_name</code> and <code>unit_attribute_name</code> options, respectively.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>CubeWithCustomAccessor</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
-  <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:length</span><span class='comma'>,</span> <span class='label'>unit_attribute_name:</span> <span class='symbol'>:length_uom</span>
-  <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:width</span><span class='comma'>,</span> <span class='label'>quantity_attribute_name:</span> <span class='symbol'>:width_value</span>
+  <span class='id identifier rubyid_measured'>measured</span> <span class='const'><span class='object_link'><a href="UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Length</span><span class='comma'>,</span> <span class='symbol'>:length</span><span class='comma'>,</span> <span class='symbol'>:width</span><span class='comma'>,</span> <span class='symbol'>:height</span><span class='comma'>,</span> <span class='label'>unit_attribute_name:</span> <span class='symbol'>:size_uom</span>
+  <span class='id identifier rubyid_measured'>measured</span> <span class='const'><span class='object_link'><a href="UnitMeasurements.html" title="UnitMeasurements (module)">UnitMeasurements</a></span></span><span class='op'>::</span><span class='const'>Weight</span><span class='comma'>,</span> <span class='symbol'>:weight</span><span class='comma'>,</span> <span class='label'>quantity_attribute_name:</span> <span class='symbol'>:width_quantity</span>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>For a more streamlined approach, predefined methods are available for commonly used types like <code>length</code>, <code>weight</code>, <code>area</code>, <code>volume</code>, etc.:</p>
+<p>For a more streamlined approach, predefined methods are available for commonly used types:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Package</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
+<table role="table">
+<thead>
+<tr>
+<th align="left">#</th>
+<th align="left">Unit group</th>
+<th align="left">Method name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">Length or distance</td>
+<td align="left">measured_length</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">Weight or mass</td>
+<td align="left">measured_weight</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Time or duration</td>
+<td align="left">measured_time</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">Temperature</td>
+<td align="left">measured_temperature</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">Area</td>
+<td align="left">measured_area</td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">Volume</td>
+<td align="left">measured_volume</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">Density</td>
+<td align="left">measured_density</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>CubeWithPredefinedMethods</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
   <span class='id identifier rubyid_measured_length'>measured_length</span> <span class='symbol'>:size</span>
-  <span class='id identifier rubyid_measured_area'>measured_area</span> <span class='symbol'>:carpet_area</span>
-  <span class='id identifier rubyid_measured_volume'>measured_volume</span> <span class='symbol'>:total_volume</span>
-  <span class='id identifier rubyid_measured_weight'>measured_weight</span> <span class='symbol'>:item_weight</span><span class='comma'>,</span> <span class='symbol'>:package_weight</span>
+  <span class='id identifier rubyid_measured_volume'>measured_volume</span> <span class='symbol'>:volume</span>
+  <span class='id identifier rubyid_measured_weight'>measured_weight</span> <span class='symbol'>:weight</span>
+  <span class='id identifier rubyid_measured_density'>measured_density</span> <span class='symbol'>:density</span>
 <span class='kw'>end</span>
 </code></pre>
 
@@ -169,11 +216,11 @@
 
 <h2 id="label-License">License</h2>
 
-<p>Copyright 2023 <a href="(https://shivam091.github.io)">Harshal V. LADHE</a>, Released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
+<p>Copyright 2023 <a href="https://shivam091.github.io">Harshal V. LADHE</a>, Released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Mon Nov 27 14:16:28 2023 by
+  Generated on Sun Dec 10 14:04:25 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
