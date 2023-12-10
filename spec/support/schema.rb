@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1) do
+ActiveRecord::Schema.define(version: 2) do
   create_table "cubes", force: :cascade do |t|
     t.decimal "length_quantity", precision: 10, scale: 2
     t.string "length_unit", limit: 12
@@ -27,59 +27,5 @@ ActiveRecord::Schema.define(version: 1) do
     t.string "width_unit", limit: 12
     t.decimal "height_value", precision: 10, scale: 2
     t.string "height_uom", limit: 12
-  end
-
-  create_table "containers", force: :cascade do |t|
-    t.decimal "total_volume_quantity", precision: 10, scale: 2
-    t.string "total_volume_unit", limit: 12
-    t.decimal "internal_volume_quantity", precision: 10, scale: 2
-    t.string "internal_volume_unit", limit: 12
-    t.decimal "external_volume_quantity", precision: 10, scale: 2
-    t.string "external_volume_unit", limit: 12
-  end
-
-  create_table "lands", force: :cascade do |t|
-    t.decimal "total_area_quantity", precision: 10, scale: 2
-    t.string "total_area_unit", limit: 12
-    t.decimal "carpet_area_quantity", precision: 10, scale: 2
-    t.string "carpet_area_unit", limit: 12
-    t.decimal "buildup_area_quantity", precision: 10, scale: 2
-    t.string "buildup_area_unit", limit: 12
-  end
-
-  create_table "packages", force: :cascade do |t|
-    t.decimal "total_weight_quantity", precision: 10, scale: 2
-    t.string "total_weight_unit", limit: 12
-    t.decimal "item_weight_quantity", precision: 10, scale: 2
-    t.string "item_weight_unit", limit: 12
-    t.decimal "package_weight_quantity", precision: 10, scale: 2
-    t.string "package_weight_unit", limit: 12
-  end
-
-  create_table "substances", force: :cascade do |t|
-    t.decimal "total_density_quantity", precision: 10, scale: 2
-    t.string "total_density_unit", limit: 12
-    t.decimal "internal_density_quantity", precision: 10, scale: 2
-    t.string "internal_density_unit", limit: 12
-    t.decimal "external_density_quantity", precision: 10, scale: 2
-    t.string "external_density_unit", limit: 12
-  end
-
-  create_table "weather_reports", force: :cascade do |t|
-    t.decimal "average_temperature_quantity", precision: 10, scale: 2
-    t.string "average_temperature_unit", limit: 12
-    t.decimal "day_temperature_quantity", precision: 10, scale: 2
-    t.string "day_temperature_unit", limit: 12
-    t.decimal "night_temperature_quantity", precision: 10, scale: 2
-    t.string "night_temperature_unit", limit: 12
-  end
-
-  create_table "project_timelines", force: :cascade do |t|
-    t.decimal "duration_quantity", precision: 10, scale: 2
-    t.string "duration_unit", limit: 12
-    t.decimal "setup_time_quantity", precision: 10, scale: 2
-    t.string "setup_time_unit", limit: 12
-    t.decimal "processing_time_quantity", precision: 10, scale: 2
-    t.string "processing_time_unit", limit: 12
   end
 end
