@@ -38,3 +38,6 @@ Dir.glob(File.expand_path("spec/support/models/*.rb")).each { |file| require fil
 # Establish connection to the database and dump database.
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 require_relative "support/schema.rb"
+
+# Load shared examples
+require_relative "support/shared_examples"

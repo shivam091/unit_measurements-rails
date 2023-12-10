@@ -1,3 +1,11 @@
+## [1.6.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.5.0...v1.6.0) - 2023-12-10
+
+### What's new
+
+- Added tests for `measured_*` methods.
+
+-----------
+
 ## [1.5.0](https://github.com/shivam091/unit_measurements-rails/compare/v1.4.0...v1.5.0) - 2023-11-27
 
 ### What's new

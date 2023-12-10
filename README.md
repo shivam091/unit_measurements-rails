@@ -14,7 +14,7 @@ A Rails adaptor that encapsulate measurements and their units in Ruby on Rails.
 ## Introduction
 
 This gem is designed as a Rails integration for the [unit_measurements](https://github.com/shivam091/unit_measurements) gem.
-It provides an `ActiveRecord` adapter for persisting and retrieving measurements along with their units, simplifying complex
+It provides an `ActiveRecord` adapter for persisting and retrieving measurement quantity along with its unit, simplifying complex
 measurement handling within your Rails applications.
 
 ## Minimum Requirements
@@ -42,8 +42,8 @@ Or otherwise simply install it yourself as:
 
 ### ActiveRecord
 
-This gem provides an ActiveRecord integration allowing you to declare measurement attributes with their
-corresponding units in your database schema:
+This gem provides an ActiveRecord integration allowing you to declare measurement
+attributes along with their corresponding units in your database schema:
 
 ```ruby
 class CreateCubes < ActiveRecord::Migration[7.0]
@@ -76,6 +76,9 @@ cube.length_unit       #=> "ft"
 cube.length            #=> 5.0 ft
 ```
 
+Attribute accessor names are expected to have the `_quantity` and `_unit` suffix,
+and be `DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
+
 You can specify multiple measurement attributes simultaneously:
 
 ```ruby
@@ -84,28 +87,36 @@ class Cube < ActiveRecord::Base
 end
 ```
 
-Attribute names are expected to have the `_quantity` and `_unit` suffix, and be
-`DECIMAL` and `VARCHAR` types, respectively, and defaults values are accepted.
-
-You can customize the model's quantity and unit accessors by specifying them in the
-`quantity_attribute_name` and `unit_attribute_name` options, respectively.
+You can customize the quantity and unit accessors of the measurement attribute by
+specifying them in the `quantity_attribute_name` and `unit_attribute_name` options,
+respectively.
 
 ```ruby
 class CubeWithCustomAccessor < ActiveRecord::Base
-  measured_length :length, unit_attribute_name: :length_uom
-  measured_length :width, quantity_attribute_name: :width_value
+  measured UnitMeasurements::Length, :length, :width, :height, unit_attribute_name: :size_uom
+  measured UnitMeasurements::Weight, :weight, quantity_attribute_name: :width_quantity
 end
 ```
 
 For a more streamlined approach, predefined methods are available for commonly used
-types like `length`, `weight`, `area`, `volume`, etc.:
+types:
+
+| # | Unit group | Method name |
+| :- | :---------- | :----------- |
+| 1 | Length or distance | measured_length |
+| 2 | Weight or mass | measured_weight |
+| 3 | Time or duration | measured_time |
+| 4 | Temperature | measured_temperature |
+| 5 | Area | measured_area |
+| 6 | Volume | measured_volume |
+| 7 | Density | measured_density |
 
 ```ruby
-class Package < ActiveRecord::Base
+class CubeWithPredefinedMethods < ActiveRecord::Base
   measured_length :size
-  measured_area :carpet_area
-  measured_volume :total_volume
-  measured_weight :item_weight, :package_weight
+  measured_volume :volume
+  measured_weight :weight
+  measured_density :density
 end
 ```
 
@@ -121,4 +132,4 @@ Contributions to this project are welcomed! To contribute:
 
 ## License
 
-Copyright 2023 [Harshal V. LADHE]((https://shivam091.github.io)), Released under the [MIT License](http://opensource.org/licenses/MIT).
+Copyright 2023 [Harshal V. LADHE](https://shivam091.github.io), Released under the [MIT License](http://opensource.org/licenses/MIT).
