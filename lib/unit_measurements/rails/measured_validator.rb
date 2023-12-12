@@ -124,7 +124,7 @@ class MeasuredValidator < ActiveModel::EachValidator
 
     return if valid_units.include?(measurement_unit)
 
-    record.errors.add(attribute, message(record, "is not included within list"))
+    record.errors.add(attribute, message(record, "is not included within a list"))
   end
 
   # @private
@@ -175,7 +175,7 @@ class MeasuredValidator < ActiveModel::EachValidator
     when Symbol then record.send(key)
     else             key
     end.tap do |value|
-      raise ArgumentError, ":#{value} must be either Numeric or Measurement" unless value.is_a?(Numeric) || value.is_a?(UnitMeasurements::Measurement)
+      raise ArgumentError, ":#{value} must be either a Numeric or a Measurement" unless value.is_a?(Numeric) || value.is_a?(UnitMeasurements::Measurement)
     end
   end
 end
